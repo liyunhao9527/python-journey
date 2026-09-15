@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Python 学习路线：从基础语法到自动化、数据分析与 Web API 实战。"
+    />
+    <title>常用命令 · Python Journey</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/python-logo.svg" />
+    <link rel="stylesheet" href="../assets/python-theme.css" />
+    <script defer src="../assets/courses.js"></script>
+    <script defer src="../assets/course-ui.js"></script>
+    <script defer src="../assets/vendor/highlight.min.js"></script>
+    <script defer src="../assets/highlight-init.js"></script>
+    <script defer src="../assets/lesson-reader.js"></script>
+    <script defer src="../assets/quiz.js"></script>
+  </head>
+  <body data-course-root="../">
+    <a class="skip-link" href="#content">跳到正文</a>
+    <header class="site-header wrap">
+      <nav aria-label="主导航">
+        <a class="brand" href="../index.html" data-home
+          ><img
+            src="../assets/python-logo.svg"
+            width="40"
+            height="40"
+            alt=""
+          /><span>Python Journey<small>面向 TypeScript 开发者</small></span></a
+        >
+        <div class="nav-links">
+          <a href="../courses.html" data-directory>全部课程</a
+          ><a href="../index.html#path-title">学习路线</a
+          ><a href="../index.html#projects">实战项目</a
+          ><a
+            class="nav-start"
+            href="../lessons/0001-build-and-run.html"
+            data-resume
+            >从第一课开始 ↗</a
+          >
+        </div>
+      </nav>
+    </header>
+    <main id="content" class="wrap">
+      <header class="lesson-heading">
+        <p class="eyebrow">QUICK REFERENCE</p>
+        <h1>常用命令速查。</h1>
+        <p>遇到问题先确认当前位置、解释器路径和完整错误。</p>
+      </header>
+      <article class="lesson-article">
+        <section class="lesson-section" id="command-1">
+          <h2>安装 uv 与 Python</h2>
+          <p>
+            先按
+            <a href="https://docs.astral.sh/uv/getting-started/installation/"
+              >uv 官方安装指南</a
+            >安装 uv，再执行下面的命令。若希望自己下载安装 Python，可访问
+            <a href="https://www.python.org/downloads/">Python 官网</a
+            >选择适合自己电脑的安装包。
+          </p>
+          <pre><code class="language-plaintext">uv --version
+uv python install 3.14
+uv python list --only-installed</code></pre>
+        </section>
+        <section class="lesson-section" id="command-2">
+          <h2>固定项目版本与同步环境</h2>
+          <p>
+            在包含 pyproject.toml 的项目根目录执行。版本写入
+            .python-version，环境位于 .venv。
+          </p>
+          <pre><code class="language-plaintext">uv python pin 3.14
+uv sync
+uv run python --version
+uv run python -c "import sys; print(sys.executable)"</code></pre>
+          <p>
+            单纯进入目录不会自动切换终端中的 python；使用 uv run 选择项目环境。
+          </p>
+        </section>
+        <section class="lesson-section" id="command-3">
+          <h2>运行第一课</h2>
+          <p>第一次输出问候与学习时间；第二次输出计时练习的参考结果。</p>
+          <pre><code class="language-plaintext">uv run python demos/01-hello/main.py
+uv run python demos/01-hello/solution.py</code></pre>
+        </section>
+        <section class="lesson-section" id="command-4">
+          <h2>后续课管理依赖</h2>
+          <p>
+            学到测试时再执行。这些命令会将 pytest
+            加入开发依赖并更新锁文件；第一课不需要安装它。
+          </p>
+          <pre><code class="language-plaintext">uv add --dev pytest
+uv run pytest</code></pre>
+          <p>
+            添加运行依赖使用 <code>uv add 包名</code>，移除时使用
+            <code>uv remove 包名</code>。依赖声明在 pyproject.toml
+            中，解析结果记录在 uv.lock 中。
+          </p>
+        </section>
+      </article>
+      <section class="section">
+        <h2>与其他语言区分</h2>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>项目</th>
+                <th>界面主题</th>
+                <th>代码主题</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Go Journey</td>
+                <td>青蓝 #007d9c</td>
+                <td>One Dark</td>
+              </tr>
+              <tr>
+                <td>Java Journey</td>
+                <td>松绿 #35624b</td>
+                <td>GitHub Dark</td>
+              </tr>
+              <tr>
+                <td>Rust Journey</td>
+                <td>锈橙 #a04325</td>
+                <td>Gruvbox Dark</td>
+              </tr>
+              <tr>
+                <td>Python Journey</td>
+                <td>鸢尾紫 #6650ad + 黄色 #ffe08a</td>
+                <td>深紫 #241d35；淡紫关键字、浅黄字符串</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer wrap">
+      <a href="../index.html">Python Journey</a>
+      <p>一次预测，一段代码，一份可验证的结果。</p>
+      <a href="../reference/index.html">常用命令速查 ↗</a>
+    </footer>
+  </body>
+</html>

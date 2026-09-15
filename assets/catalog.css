@@ -1,0 +1,182 @@
+/* The directory shares the homepage's paper, ink and Python tokens. */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--paper);
+}
+.nav-links [aria-current="page"] {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 8px;
+}
+.catalog-main {
+  padding-bottom: 32px;
+}
+.catalog-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  padding: 52px 0 38px;
+}
+.catalog-heading h1 {
+  margin: 15px 0;
+  font-size: clamp(30px, 3.2vw, 44px);
+}
+.catalog-heading p,
+.catalog-note p {
+  color: var(--muted);
+  font-size: 13px;
+}
+.catalog-note {
+  border-left: 2px solid var(--accent);
+  padding-left: 26px;
+}
+.catalog-note strong {
+  font-size: 22px;
+  font-weight: 600;
+}
+.catalog-note strong span {
+  font-family: var(--mono);
+  color: var(--accent);
+}
+.catalog-note p {
+  margin-block: 8px;
+}
+.catalog-filters {
+  display: grid;
+  grid-template-columns: minmax(180px, 2fr) minmax(150px, 1fr) minmax(
+      120px,
+      0.75fr
+    ) auto;
+  align-items: end;
+  gap: 16px;
+  padding: 24px;
+  background: var(--accent-soft);
+  border-radius: 4px;
+}
+.catalog-filters label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.catalog-filters input,
+.catalog-filters select,
+.catalog-filters button {
+  font: inherit;
+  font-size: 13px;
+  min-height: 46px;
+  width: 100%;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 10px 12px;
+}
+.catalog-filters button {
+  cursor: pointer;
+  background: transparent;
+  border-color: var(--muted);
+}
+.catalog-filters button:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.catalog-count {
+  padding: 20px 0 6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.catalog-phase {
+  margin-top: 26px;
+}
+.catalog-phase h2 {
+  font-size: 17px;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 12px;
+}
+.catalog-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.catalog-row {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: center;
+  padding: 22px 8px;
+  border-bottom: 1px solid var(--line);
+}
+.catalog-number {
+  font: 13px var(--mono);
+  color: var(--muted);
+}
+.catalog-row h3 {
+  font-size: 17px;
+}
+.catalog-row h3 a {
+  text-decoration: none;
+  display: inline-block;
+  padding-block: 6px;
+  color: var(--accent);
+}
+.catalog-row h3 a:hover {
+  text-decoration: underline;
+}
+.catalog-row p {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.catalog-status {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.catalog-status.is-open {
+  color: var(--accent);
+}
+.catalog-empty {
+  padding: 50px 0;
+}
+.catalog-empty p,
+.catalog-footnote {
+  color: var(--muted);
+  font-size: 12px;
+}
+.catalog-footnote {
+  padding-top: 30px;
+}
+[hidden] {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .catalog-heading {
+    display: block;
+    padding-top: 32px;
+  }
+  .catalog-note {
+    margin-top: 26px;
+    padding-left: 18px;
+  }
+  .catalog-filters {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px;
+  }
+  .search-field {
+    grid-column: 1 / -1;
+  }
+  .catalog-filters button {
+    grid-column: 1 / -1;
+  }
+  .catalog-row {
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 8px 12px;
+  }
+  .catalog-status {
+    grid-column: 2;
+  }
+}

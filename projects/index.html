@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Python 学习路线：从基础语法到自动化、数据分析与 Web API 实战。"
+    />
+    <title>实战项目 · Python Journey</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/python-logo.svg" />
+    <link rel="stylesheet" href="../assets/python-theme.css" />
+    <script defer src="../assets/courses.js"></script>
+    <script defer src="../assets/course-ui.js"></script>
+    <script defer src="../assets/vendor/highlight.min.js"></script>
+    <script defer src="../assets/highlight-init.js"></script>
+    <script defer src="../assets/lesson-reader.js"></script>
+    <script defer src="../assets/quiz.js"></script>
+  </head>
+  <body data-course-root="../">
+    <a class="skip-link" href="#content">跳到正文</a>
+    <header class="site-header wrap">
+      <nav aria-label="主导航">
+        <a class="brand" href="../index.html" data-home
+          ><img
+            src="../assets/python-logo.svg"
+            width="40"
+            height="40"
+            alt=""
+          /><span>Python Journey<small>面向 TypeScript 开发者</small></span></a
+        >
+        <div class="nav-links">
+          <a href="../courses.html" data-directory>全部课程</a
+          ><a href="../index.html#path-title">学习路线</a
+          ><a href="../index.html#projects">实战项目</a
+          ><a
+            class="nav-start"
+            href="../lessons/0001-build-and-run.html"
+            data-resume
+            >从第一课开始 ↗</a
+          >
+        </div>
+      </nav>
+    </header>
+    <main id="content" class="wrap">
+      <header class="lesson-heading">
+        <p class="eyebrow">PROJECT BRIEFS</p>
+        <h1>三个项目，三种工作方式。</h1>
+        <p>
+          这是待实施的项目任务书，不是已完成项目。每个里程碑都先跑通、再解释、再测试；关键实现由你完成，辅导围绕提示、审阅和错误分析展开。
+        </p>
+      </header>
+      <section class="section" id="project-1">
+        <p class="eyebrow">PROJECT 01</p>
+        <h2>文件清单 CLI</h2>
+        <p>
+          学完第 14
+          课后验收。先学会模块、文件、异常和测试，再把它们组合成命令行工具。
+        </p>
+        <div class="project-grid">
+          <article class="project">
+            <h3>M1 · 只读扫描</h3>
+            <p>
+              输入目录，递归扫描普通文件，按扩展名汇总数量与字节数。先用标准库
+              pathlib 和 argparse，默认跳过符号链接，不移动或删除任何文件。
+            </p>
+          </article>
+          <article class="project">
+            <h3>M2 · 可控输出</h3>
+            <p>
+              支持 --ignore 和 --json；无扩展名的文件单独统计。读取失败时在
+              stderr 报告路径与原因，给出部分结果并返回非零退出码；参数错误返回
+              2，完整成功返回 0，扫描或输出失败返回 1。
+            </p>
+          </article>
+          <article class="project">
+            <h3>M3 · 完成交付</h3>
+            <p>
+              准备包含中文名、空目录、嵌套目录、无扩展名和符号链接的夹具。权限错误用可控制的测试模拟，避免依赖机器权限。补充可安装入口、README
+              与实际目录演示。
+            </p>
+          </article>
+        </div>
+        <h3 style="margin-top: 28px">验收标准</h3>
+        <p>
+          给定固定夹具，JSON
+          中的文件数和总字节数与预期一致；无效目录返回非零；忽略规则和符号链接策略有测试；运行前后源目录内容不变。
+        </p>
+        <details>
+          <summary>实现建议</summary>
+          <p>
+            先从一个普通文件读取大小，再扫描一层目录，最后递归。不要一开始加入并发、文件移动或复杂插件系统。
+          </p>
+        </details>
+      </section>
+      <section class="section" id="project-2">
+        <p class="eyebrow">PROJECT 02</p>
+        <h2>支出分析报告</h2>
+        <p>
+          学完第 22 课后验收。先用 csv、decimal、datetime、sqlite3
+          建立正确的数据流程，再用 pandas 和 matplotlib 简化分析与画图。
+        </p>
+        <div class="project-grid">
+          <article class="project">
+            <h3>M1 · 明确输入</h3>
+            <p>
+              定义 CSV 列：transaction_id、date、category、amount，日期使用
+              YYYY-MM-DD，金额只接受最多两位小数的十进制文本，允许负数表示退款。先只处理一种币种，使用合成账单练习。
+            </p>
+          </article>
+          <article class="project">
+            <h3>M2 · 清洗与入库</h3>
+            <p>
+              将金额从字符串解析为
+              Decimal，验证有限值与精度；入库保存整数分。transaction_id
+              加唯一约束，整批使用事务。错误行导出行号与原因；重复 ID
+              内容不一致时报告冲突，不静默覆盖。
+            </p>
+          </article>
+          <article class="project">
+            <h3>M3 · 可复用报告</h3>
+            <p>
+              按月和分类聚合，生成图表与独立 HTML
+              报告，包含数据范围、有效行数、错误数及汇总表。模板输出转义文本，离线报告也可阅读；为图表选择支持中文的字体。
+            </p>
+          </article>
+        </div>
+        <h3 style="margin-top: 28px">验收标准</h3>
+        <p>
+          固定样例包含普通支出、退款、无效日期、非数值金额和重复记录；明细之和等于汇总之和；重复导入两次总额不变；HTML
+          能离线打开，缺失数据给出解释，错误行可定位。
+        </p>
+        <details>
+          <summary>实现建议</summary>
+          <p>
+            先保证金额算对，再讨论图表。第一版可直接生成表格；不要把浮点累计误差当成可接受的账单误差。
+          </p>
+        </details>
+      </section>
+      <section class="section" id="project-3">
+        <p class="eyebrow">PROJECT 03</p>
+        <h2>学习书签 API</h2>
+        <p>
+          学完第 29 课后验收。以 FastAPI + Pydantic + SQLite
+          为起点，项目启动时确认并锁定依赖版本；数据库层可逐步引入 SQLAlchemy 与
+          Alembic。
+        </p>
+        <div class="project-grid">
+          <article class="project">
+            <h3>M1 · 完成接口闭环</h3>
+            <p>
+              实现 GET/POST /bookmarks 与 GET/PATCH/DELETE
+              /bookmarks/{id}。书签包含标题、http(s)
+              URL、标签和创建时间；定义长度限制、分页上限及重复链接规则。
+            </p>
+          </article>
+          <article class="project">
+            <h3>M2 · 持久化与测试</h3>
+            <p>
+              增加数据库迁移、参数化查询或
+              ORM、事务与测试数据库隔离。覆盖成功、校验失败、404、分页边界及数据库错误；同步数据库操作先使用同步路由，不在
+              async 路由里直接执行阻塞操作。
+            </p>
+          </article>
+          <article class="project">
+            <h3>M3 · 本地部署</h3>
+            <p>
+              从环境变量读取配置，提供 /health、结构化日志、启动文档和 Docker
+              配置。容器使用数据卷保存
+              SQLite，验证重启后数据仍然存在。先交付本机单用户服务；若要公开部署，另加认证、授权、限流和备份恢复方案。
+            </p>
+          </article>
+        </div>
+        <h3 style="margin-top: 28px">验收标准</h3>
+        <p>
+          能通过 curl
+          创建、查询、更新和删除书签；标签过滤与分页结果稳定；重启保留数据；全新数据库能运行迁移；pytest
+          通过；另一人按 README 可启动服务并复现验收。
+        </p>
+        <details>
+          <summary>实现建议</summary>
+          <p>
+            基础 API
+            不需要为了“高级”强行用异步。先交付同步可测的版本；扩展链接状态检查时，再加入超时、并发上限、取消与对外请求边界。
+          </p>
+        </details>
+      </section>
+    </main>
+    <footer class="site-footer wrap">
+      <a href="../index.html">Python Journey</a>
+      <p>一次预测，一段代码，一份可验证的结果。</p>
+      <a href="../reference/index.html">常用命令速查 ↗</a>
+    </footer>
+  </body>
+</html>
