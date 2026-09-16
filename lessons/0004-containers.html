@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="用列表与字典保存学习记录，理解元组、集合与浅复制的边界。" />
+  <title>04 · 列表、元组、字典和集合 · Python Journey</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/python-logo.svg" />
+  <link rel="stylesheet" href="../assets/python-theme.css" />
+  <script defer src="../assets/courses.js"></script>
+  <script defer src="../assets/course-ui.js"></script>
+  <script defer src="../assets/vendor/highlight.min.js"></script>
+  <script defer src="../assets/highlight-init.js"></script>
+  <script defer src="../assets/lesson-reader.js"></script>
+  <script defer src="../assets/quiz.js"></script>
+</head>
+<body data-lesson="0004" data-course-root="../">
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header wrap"><nav aria-label="主导航">
+    <a class="brand" href="../index.html" data-home><img src="../assets/python-logo.svg" width="40" height="40" alt="" /><span>Python Journey<small>面向 TypeScript 开发者</small></span></a>
+    <div class="nav-links"><a href="../courses.html" data-directory>全部课程</a><a href="../index.html#path-title">学习路线</a><a href="../index.html#projects">实战项目</a><a class="nav-start" href="0001-build-and-run.html" data-resume>继续学习 ↗</a></div>
+  </nav></header>
+  <main id="content" class="wrap">
+    <header class="lesson-heading"><p class="eyebrow">LESSON 04 / 基础语法 / 约 30 分钟</p><h1>把多次学习存成记录。</h1><p>用字典描述一条记录，用列表保存多条记录。</p><div class="goal"><strong>本课目标：</strong>独立新增、读取和修改学习记录，并解释为什么浅复制后仍可能共享数据。</div></header>
+    <div class="lesson-shell">
+      <aside class="lesson-rail"><nav class="lesson-outline" aria-label="本课目录">
+        <a href="#recall">1. 从一段摘要到多条记录</a><a href="#records">2. 列表装记录，字典装字段</a><a href="#copy">3. 复制了哪一层？</a><a href="#choices">4. 固定搭配与去重</a><a href="#exercise">5. 独立完成记录摘要</a><a href="#sources">本课参考</a>
+      </nav></aside>
+      <article class="lesson-article">
+        <section class="lesson-section" id="recall"><h2>1. 从一段摘要到多条记录</h2>
+          <p>上一课能把一次学习输出成文字。现在要保存两次学习的主题与分钟数，稍后还能修正其中一条。后面的支出分析也需要先把“一笔支出”和“多笔支出”组织成数据。</p>
+          <p>先不运行，写下两个输出。解释 strip 是否修改原字符串，以及为什么这里需要 int；不确定时回看<a href="0003-strings-and-input.html#summary">第三课</a>。</p>
+          <pre><code class="language-python">raw = "  容器  "
+topic = raw.strip()
+print(raw == topic)
+print(int("25") + 5)</code></pre>
+          <details><summary>写完预测再核对</summary><p>输出 False 和 30。strip 返回清理后的字符串，raw 仍带空格；int 把文本转成整数后才能与整数 5 相加。</p></details>
+        </section>
+        <section class="lesson-section" id="records"><h2>2. 列表装记录，字典装字段</h2>
+          <p><strong>容器是把多个对象组织在一起的对象。</strong>本课先用两种：列表 list 按位置保存元素，可以追加、替换或删除；字典 dict 保存“键 → 值”，用名字查找一项数据。键相当于字段名，例如 topic 对应主题，minutes 对应分钟数。</p>
+          <p>列表写成 <code>[元素, 元素]</code>，位置从 0 开始。字典写成 <code>{"键": 值}</code>，本课的键都是字符串，需要引号。<code>records[0]["minutes"]</code> 先取列表中的第一条字典，再取它的 minutes 值。这种容器里还有容器的结构称为嵌套。</p>
+          <p><code>append(x)</code> 把一个元素追加到列表末尾；<code>len(records)</code> 取得记录数。<code>record.get("note", "未填写")</code> 在键不存在时返回默认值，便于读取可选备注。它不会把默认值写入字典。</p>
+          <pre><code class="language-python">first = {"topic": "字符串", "minutes": 25}
+second = {"topic": "容器", "minutes": 30}
+records = [first]
+records.append(second)
+records[0]["minutes"] = 35
+
+total = records[0]["minutes"] + records[1]["minutes"]
+print(f"共 {len(records)} 条记录，合计 {total} 分钟。")
+print(records[1]["topic"])
+print(records[0].get("note", "未填写"))</code></pre>
+          <p>代码已保存在 <code>demos/04-containers/main.py</code>。先预测三行输出，再从项目根目录运行：</p>
+          <pre><code class="language-plaintext">uv run python demos/04-containers/main.py</code></pre>
+          <details><summary>核对运行结果</summary><pre><code class="language-plaintext">共 2 条记录，合计 65 分钟。
+容器
+未填写</code></pre><p>第一条从 25 改为 35，再与第二条的 30 相加。first 与 records[0] 指向同一个字典，因此 first["minutes"] 也变为 35。</p></details>
+          <h3>同一任务的 TypeScript 写法</h3>
+          <p>这里用普通对象保存已知字段，用 Array 保存记录。<code>!</code> 是 TS 的非空断言：让类型检查器相信该位置存在，运行时不增加检查。本例由数组构造和 push 保证两项存在；不能把断言当作输入校验。</p>
+          <pre><code class="language-typescript">const first: { topic: string; minutes: number; note?: string } = {
+  topic: "字符串", minutes: 25,
+};
+const second = { topic: "容器", minutes: 30 };
+const records = [first];
+records.push(second);
+records[0]!.minutes = 35;
+
+const total = records[0]!.minutes + records[1]!.minutes;
+console.log(`共 ${records.length} 条记录，合计 ${total} 分钟。`);
+console.log(records[1]!.topic);
+console.log(Object.hasOwn(records[0]!, "note") ? records[0]!.note : "未填写");</code></pre>
+          <p>note? 声明可选备注；Object.hasOwn 检查自有字段是否存在，存在则读取，否则返回默认文字。文件为 <code>demos/04-containers/equivalent.ts</code>。支持原生类型擦除的 Node 可运行 <code>node demos/04-containers/equivalent.ts</code>，或使用现有 TS 工具链；本例还需支持 Object.hasOwn 的运行时（Node 16.9+）。Node 擦除类型后执行，不替代 tsc 检查。</p>
+          <div class="table-scroll"><table><thead><tr><th>目标</th><th>差异与类比边界</th><th>优势、代价与适用场景</th></tr></thead><tbody>
+            <tr><td>追加记录</td><td>append 与 push 都修改原容器。<strong>append 返回 None，push 返回新长度。</strong></td><td>本例无需返回值，两者无明显优劣。Python 不要写 records = records.append(second)，否则名字会绑定到 None。</td></tr>
+            <tr><td>按位置读取</td><td>Python 越界报 IndexError；JS 数组越界通常得到 undefined。TS 的 noUncheckedIndexedAccess 可把可能的 undefined 加进索引结果类型；在 strictNullChecks 下需处理它。</td><td>Python 越界当场报错；TS 可在运行前提醒，但依赖配置，JS 运行时仍要处理缺失。</td></tr>
+            <tr><td>按字段读取</td><td><strong>dict 用 ["topic"]，不能用 .topic。</strong>缺失键用 [] 读取会报 KeyError；get 可给默认值。JS 缺失属性通常为 undefined，TS 对已知对象访问未声明字段会报类型错误。</td><td>固定字段可借 TS 推断提前发现拼写错误；Python 字典便于动态增减字段，需在运行时确认键。get 适合可选项，必填字段用 [] 更容易暴露遗漏。</td></tr>
+            <tr><td>添加或更新字段</td><td>Python record["note"] = "复习" 可新增字段，同一个键再次赋值会覆盖旧值。TS 本例先声明 note? 才能在该类型上添加备注；只从 topic、minutes 推断出的类型不含 note。</td><td>字典适合字段随数据变化的记录；TS 明确结构利于维护，需额外类型声明。dict 也能做映射，但不等同于所有 JS 对象或 Map 行为。</td></tr>
+          </tbody></table></div>
+          <p>试着把第二条分钟数改为 0，再运行。还可以用 <code>"note" in first</code> 判断键是否存在：<strong>字典的 in 查键，不查值。</strong>get 只在缺键时使用默认值；如果 note 已存在且值为 None，就返回 None。</p>
+          <p>Python 3.7 起 dict 保证插入顺序，但键仍是查找依据，<code>first[0]</code> 查的是整数键 0，不是第一个字段。规则见官方<a href="https://docs.python.org/3.14/tutorial/datastructures.html#dictionaries">字典教程</a>。</p>
+        </section>
+        <section class="lesson-section" id="copy"><h2>3. 复制了哪一层？</h2>
+          <p>第二课讲过赋值会共享对象。现在需要一个临时列表，用来试着修改记录；只写 <code>draft = records</code> 会让两个名字指向同一个列表。</p>
+          <p><strong>浅复制只创建外层容器，内部元素仍指向原来的对象。</strong><code>records.copy()</code> 创建新列表，里面的字典没有被复制。适合独立增删列表元素；若要独立修改某条记录，还要复制那条字典。</p>
+          <pre><code class="language-python">records = [{"topic": "容器", "minutes": 30}]
+draft = records.copy()
+draft.append({"topic": "函数", "minutes": 20})
+draft[0]["minutes"] = 40
+print(len(records), len(draft))
+print(records[0]["minutes"])</code></pre>
+          <pre><code class="language-typescript">const records = [{ topic: "容器", minutes: 30 }];
+const draft = [...records];
+draft.push({ topic: "函数", minutes: 20 });
+draft[0]!.minutes = 40;
+console.log(records.length, draft.length);
+console.log(records[0]!.minutes);</code></pre>
+          <ul><li>共同点：两段都先输出 1 2，再输出 40。新列表或数组可独立追加，第一条记录仍共享。</li><li><strong>边界：</strong>copy 与数组展开都不递归复制内层对象。Python 列表切片 records[:] 也是浅复制。</li><li>取舍：两种写法在这里无明显优劣。浅复制能保留内部共享，适合只改外层的任务；修改内层前，要明确哪些对象需要独立。</li></ul>
+          <div class="table-scroll"><table><thead><tr><th>操作</th><th>原列表</th><th>临时列表</th></tr></thead><tbody><tr><td>copy 后</td><td>1 个元素 → 字典 A</td><td>1 个元素 → 同一个字典 A</td></tr><tr><td>append 后</td><td>仍为 1 个元素</td><td>2 个元素 → A 和新增的 B</td></tr><tr><td>修改 draft[0] 的字段后</td><td>A 的 minutes 为 40</td><td>A 的 minutes 为 40</td></tr></tbody></table></div>
+          <p>要单独编辑第一条，在赋值修改字段之前写 <code>draft[0] = draft[0].copy()</code>；对应本例 TS 对象可写 <code>draft[0] = { ...draft[0]! }</code>。两者都只复制这一层记录，适合本课字符串和整数值；如果字段里还有列表，那个列表仍共享。</p>
+          <div data-quiz data-explanation="draft 是新列表，但 draft[0] 与 records[0] 最初指向同一个字典。" data-incorrect="先分别检查外层列表和第一条字典：哪一层真正调用了 copy？"><h3>上面的浅复制程序执行后，records[0]["minutes"] 是多少？</h3><button type="button">20</button><button type="button">30</button><button type="button" data-correct="true">40</button><p role="status" aria-live="polite"></p></div>
+          <p>现在加入那一行字典复制，先预测，再重新运行整段程序。确认原记录仍为 30，并用一句话解释原因。官方说明：<a href="https://docs.python.org/3.14/tutorial/datastructures.html#more-on-lists">list.copy</a>。</p>
+        </section>
+        <section class="lesson-section" id="choices"><h2>4. 固定搭配与去重</h2>
+          <h3>元组：固定位置上的搭配</h3>
+          <p><strong>元组 tuple 是不能增删元素、不能替换元素位置的序列。</strong>例如一对“主题、分钟数”在创建后不需要调整结构，可以写成元组。索引与列表一样从 0 开始；逗号组成元组，单元素要写 <code>("容器",)</code>，<code>("容器")</code> 仍是字符串。</p>
+          <pre><code class="language-python">session = ("容器", 30)
+print(session[0])
+# session[1] = 40  # 取消注释会报 TypeError</code></pre>
+          <pre><code class="language-typescript">const session: readonly [string, number] = ["容器", 30];
+console.log(session[0]);
+// session[1] = 40; // 取消注释会被 TS 类型检查拒绝</code></pre>
+          <ul><li>两段都读取固定位置并输出“容器”；本例 TS readonly 元组还能声明各位置的类型。</li><li><strong>不可变的边界不同：</strong>Python 在运行时禁止替换 tuple 的元素；TS readonly 只约束静态检查，类型擦除后仍是普通 JS 数组，不会自动冻结。</li><li>取舍：元组适合位置含义明确的短组合，字段多时字典名字更易读。TS 的类型提示便于查错，运行时限制需另做处理；Python tuple 的限制直接生效，但不会自动检查每个位置的业务类型。</li></ul>
+          <p>元组也可能包含可变对象。<code>session = ("容器", [30])</code> 后执行 <code>session[1].append(10)</code> 是允许的：内层列表改变，元组仍指向原来的列表。不可变不等于内部所有对象都不可变。</p>
+          <h3>集合：只关心有哪些不同主题</h3>
+          <p><strong>集合 set 保存不重复的元素，不保证元素顺序。</strong>当同一主题学了多次，可以把主题列表交给 set 去重，再用 len 统计不同主题数。<code>in</code> 检查某个主题是否存在。</p>
+          <pre><code class="language-python">topics = ["容器", "字符串", "容器"]
+unique_topics = set(topics)
+print(len(unique_topics))
+print("容器" in unique_topics)</code></pre>
+          <pre><code class="language-typescript">const topics = ["容器", "字符串", "容器"];
+const uniqueTopics = new Set(topics);
+console.log(uniqueTopics.size);
+console.log(uniqueTopics.has("容器"));</code></pre>
+          <ul><li>两段都得到 2 与真值（Python 显示 True，JS 显示 true），字符串主题去重可以类比。</li><li><strong>顺序边界：</strong>Python set 不保证迭代顺序，JS Set 保留插入顺序。Python set 不能用 [0] 读取第一个元素。</li><li><strong>元素边界：</strong>Python set 的元素、dict 的键必须可哈希，即能提供稳定的哈希值并满足相等性规则，供容器查找。字符串、整数可用；list、dict 不可用。JS Set 可直接放对象，按对象身份区分，不按字段内容去重。</li><li>取舍：本课统计主题数，两者无明显优劣。Python set 适合去重与成员判断；要保留学习顺序，应继续保存原列表。JS Set 的插入顺序可直接用于按首次出现顺序展示。</li></ul>
+          <p>空集合写 <code>set()</code>，<strong><code>{}</code> 是空字典</strong>。现在只对字符串主题去重；不要直接写 set(records)，记录字典不可哈希。规则见<a href="https://docs.python.org/3.14/tutorial/datastructures.html#sets">Python 集合教程</a>与 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set">JS Set</a>。</p>
+        </section>
+        <section class="lesson-section" id="exercise"><h2>5. 独立完成记录摘要</h2>
+          <p>合上示例，新建自己的 <code>demos/04-containers/practice.py</code>。本课只处理两条记录，不要求循环、函数或推导式；下一课再处理任意多条。</p>
+          <ol><li>分别用 input 读取两次学习的主题与分钟数，主题用 strip 清理，分钟用 int 转换。本次输入非负整数。</li><li>各建一个包含 topic、minutes 的字典，放进列表。输出第二条的主题、记录总数和总分钟数。</li><li>取出两条记录的主题组成列表，再用 set 统计不同主题数。不要直接对两条字典去重。</li><li>创建第一条记录的字典浅复制，把复制品的分钟数增加 5，输出原记录与复制品的分钟数，验证原记录未变。</li></ol>
+          <pre><code class="language-plaintext">uv run python demos/04-containers/practice.py</code></pre>
+          <p>运行前写下预测，再用下表检查实际结果。带空格的主题要真正输入两端空格；输出样式自定，数值必须来自计算。</p>
+          <div class="table-scroll"><table><thead><tr><th>第一次输入</th><th>第二次输入</th><th>记录数 / 总分钟 / 不同主题数</th><th>原记录 / 复制品分钟</th></tr></thead><tbody><tr><td>两端带空格的 容器；25</td><td>容器；30</td><td>2 / 55 / 1</td><td>25 / 30</td></tr><tr><td>字符串；0</td><td>容器；40</td><td>2 / 40 / 2</td><td>0 / 5</td></tr></tbody></table></div>
+          <details><summary>卡住时只看提示</summary><p>先写一个字典，再写第二个。总分钟数先用两个索引相加；不同主题数可按“主题列表 → set → len”分步计算。复制品要对第一条字典调用 copy，而不是只复制外层列表。</p></details>
+          <p>另开一个临时文件试两种失败：访问两条记录列表的 [2]，读取第一条字典缺失的 ["note"]。每次只试一种，记录异常最后一行；再把可选备注改用 get，解释为什么可以继续执行。</p>
+          <p>把代码、运行命令、两组实际输出和浅复制解释发给我。课程页面与助手检查通过不代表你已掌握；用你独立预测、修改、运行和解释的证据决定下一步。</p>
+          <p>如果某一句跳过了前提，直接引用它问我。复习可看<a href="../reference/containers.html">容器速查</a>；下一课用条件与循环处理记录。</p>
+        </section>
+        <section class="lesson-section" id="sources"><h2>本课参考</h2><p>优先读 Python 官方数据结构教程的 5.1、5.3—5.5；推导式与循环小节暂时跳过。本课以 Python 3.14 为准。</p><ul>
+          <li><a href="https://docs.python.org/3.14/tutorial/datastructures.html">Python 3.14：数据结构</a>，列表方法、元组、集合与字典。</li>
+          <li><a href="https://www.typescriptlang.org/docs/handbook/2/objects.html#readonly-tuple-types">TypeScript：readonly 元组</a>，静态约束的边界。</li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set">MDN：Set</a>，插入顺序与对象身份。</li>
+        </ul></section>
+      </article>
+    </div>
+    <nav class="lesson-pagination" aria-label="课程翻页" data-lesson-pagination></nav>
+  </main>
+  <footer class="site-footer wrap"><a href="../index.html">Python Journey</a><p>一次预测，一段代码，一份可验证的结果。</p><a href="../reference/index.html">常用命令速查 ↗</a></footer>
+</body>
+</html>

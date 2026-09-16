@@ -25,6 +25,8 @@
       title: "变量、对象与基础类型",
       summary: "名字绑定到对象，理解 int、float、bool、None。",
       tags: "赋值 引用 可变 类型 id is ==",
+      minutes: 25,
+      href: "lessons/0002-objects-and-types.html",
     },
     {
       id: "0003",
@@ -32,6 +34,8 @@
       title: "字符串与输入输出",
       summary: "切片、编码、f-string 与 input 的类型转换。",
       tags: "str unicode format input print",
+      minutes: 25,
+      href: "lessons/0003-strings-and-input.html",
     },
     {
       id: "0004",
@@ -39,6 +43,8 @@
       title: "列表、元组、字典和集合",
       summary: "选择容器，识别共享引用、浅拷贝与不可变。",
       tags: "list tuple dict set copy",
+      minutes: 30,
+      href: "lessons/0004-containers.html",
     },
     {
       id: "0005",

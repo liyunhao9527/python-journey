@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="用 Python 读取输入、清理字符串并输出学习摘要。" />
+  <title>字符串速查 · Python Journey</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/python-logo.svg" />
+  <link rel="stylesheet" href="../assets/python-theme.css" />
+  <script defer src="../assets/courses.js"></script>
+  <script defer src="../assets/course-ui.js"></script>
+  <script defer src="../assets/vendor/highlight.min.js"></script>
+  <script defer src="../assets/highlight-init.js"></script>
+  <script defer src="../assets/lesson-reader.js"></script>
+  <script defer src="../assets/quiz.js"></script>
+</head>
+<body data-course-root="../">
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header wrap"><nav aria-label="主导航">
+    <a class="brand" href="../index.html" data-home><img src="../assets/python-logo.svg" width="40" height="40" alt="" /><span>Python Journey<small>面向 TypeScript 开发者</small></span></a>
+    <div class="nav-links"><a href="../courses.html" data-directory>全部课程</a><a href="../index.html#path-title">学习路线</a><a href="../index.html#projects">实战项目</a><a class="nav-start" href="../lessons/0001-build-and-run.html" data-resume>继续学习 ↗</a></div>
+  </nav></header>
+  <main id="content" class="wrap">
+<header class="lesson-heading"><p class="eyebrow">QUICK REFERENCE / 03</p><h1>字符串与输入输出速查。</h1></header><article class="lesson-article"><section class="lesson-section" id="rules"><h2>从输入到输出</h2><ul><li>input("提示")：返回一行文本，去掉末尾换行。</li><li>text.strip()：返回去掉两端空白的结果，原字符串不变。</li><li>int(text)：转换合法整数文本；空行和小数文本会报错。</li><li>text[:4]：取前四个码点，不足则取现有内容。</li><li>len(text)：计算码点数，不是字节数或显示字符数。</li><li>f"{hours:.2f}"：显示两位小数，不改变 hours。</li></ul><p>JS 对应 trim、slice 和模板字符串。本课 ASCII 文本可类比；JS length 计算 UTF-16 单元，Number 对空字符串和小数文本的处理不同于 int。Python 输入简短，Node 输入便于接入异步流程但需关闭接口。详见<a href="../lessons/0003-strings-and-input.html#summary">对照、边界与取舍</a>。</p><p><a href="../lessons/0003-strings-and-input.html">返回第三课练习</a> · <a href="index.html">常用命令</a> · <a href="https://docs.python.org/3.14/tutorial/inputoutput.html#formatted-string-literals">官方格式化说明</a></p></section></article>  </main>
+  <footer class="site-footer wrap"><a href="../index.html">Python Journey</a><p>一次预测，一段代码，一份可验证的结果。</p><a href="../reference/index.html">常用命令速查 ↗</a></footer>
+</body>
+</html>

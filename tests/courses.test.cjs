@@ -10,8 +10,8 @@ test("only published lessons resolve to real readable pages", () => {
   assert.equal(courses.lessons.length, 29);
   assert.equal(new Set(courses.lessons.map((l) => l.id)).size, 29);
   assert.equal(courses.phases.length, 7);
-  assert.equal(courses.filterLessons("", "all", "open").length, 1);
-  assert.equal(courses.filterLessons("", "all", "planned").length, 28);
+  assert.equal(courses.filterLessons("", "all", "open").length, 4);
+  assert.equal(courses.filterLessons("", "all", "planned").length, 25);
   for (const lesson of courses.lessons) {
     assert.ok(lesson.phase >= 1 && lesson.phase <= courses.phases.length);
     if (lesson.href) {
@@ -25,7 +25,7 @@ test("only published lessons resolve to real readable pages", () => {
     }
   }
   assert.equal(courses.resolveLesson("../../outside"), null);
-  assert.deepEqual(courses.neighbors("0001"), { previous: null, next: null });
+  assert.deepEqual(courses.neighbors("0001"), { previous: null, next: courses.resolveLesson("0002") });
 });
 
 test("search combines terms, phase and publication status", () => {

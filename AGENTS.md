@@ -1,24 +1,26 @@
 # Python 学习工作区
 
-面向 TypeScript / Node.js 开发者，以 Python 基础、进阶和三个实战项目为主线。教学目标见 [MISSION.md](MISSION.md)，近期反馈见 [NOTES.md](NOTES.md)。
+面向 TypeScript / Node.js 开发者，以 Python 基础、进阶和三个实战项目为主线。教学目标见 [MISSION.md](MISSION.md)，近期反馈见 [NOTES.md](NOTES.md)。本项目独立维护，文档与页面不展示其他 Journey 项目的参考或迁移关系。
 
 ## 教学与技能
 
-- 新建课程、设计练习、继续教学或根据反馈补充概念时，先读取并使用 [.agents/skills/teach/SKILL.md](.agents/skills/teach/SKILL.md)，结合 MISSION、NOTES 和 learning-records 中的实际证据安排内容。
-- 编写或重写课程正文、速查与概念解释时，读取并使用 [.agents/skills/writing-clearly-and-concisely/SKILL.md](.agents/skills/writing-clearly-and-concisely/SKILL.md)。中文讲解先说重点，每段一个主题，用具体例子说明因果。
-- 新概念先解释“是什么、为什么需要”，再介绍操作命令。首次使用所必需的解释直接放在正文中；例如虚拟环境的定义应在第一次执行 uv sync 之前。
-- 基础课用同目标的 TS / Python 代码说明差异；项目阶段按 [ROADMAP.md](ROADMAP.md) 逐步减少对照。
-- 只用学习者独立预测、修改、运行和解释的证据判断掌握；课程已交付和助手验证成功不记作学习者掌握。
-- 用户表示没听懂时，用 [.agents/skills/wait-what/SKILL.md](.agents/skills/wait-what/SKILL.md) 补齐前提。需要查证规则、诊断难解错误或展示状态变化时，按 [docs/learning-skills.md](docs/learning-skills.md) 选择对应技能。
+- 教学或设计课程、练习时，先使用 [teach](.agents/skills/teach/SKILL.md)，结合 MISSION、NOTES 和 learning-records 安排内容；对照比例与进阶顺序见 [ROADMAP.md](ROADMAP.md)。
+- 新写或修改文章、课程、速查、概念解释和项目文档时，先读取 [清晰写作](.agents/skills/writing-clearly-and-concisely/SKILL.md) 整理表达，再用 [humanizer](.agents/skills/humanizer/SKILL.md) 润色；执行下方“写作与审稿”要求。
+- 每课对比 TS / Python 代码或规则时，用同目标示例，并在相邻位置以列表或表格列出**差异、类比成立与失效的边界、各自的优势与代价及适用场景**。关键差异加粗，可辅以颜色，但不能只靠颜色区分。区分 TS 静态检查、JS / Node.js 运行时与 Python 行为；结论依赖版本或配置时注明条件，优劣结合本课任务说明，无明显优劣时明确说明。
+- 只用学习者独立预测、修改、运行和解释的证据判断掌握；课程交付和助手验证不算学习者掌握。
+- 用户没听懂时，使用 [wait-what](.agents/skills/wait-what/SKILL.md) 补齐前提；研究、诊断和可视化按 [技能指南](docs/learning-skills.md) 选择。
+
+## 写作与审稿
+
+- 动笔前明确读者要解决的问题和已有知识，按理解所需的先后顺序组织内容。中文先说重点，每段围绕一个主题，补齐必要的因果和前提；新概念在首次命令或代码之前解释“是什么、为什么需要”。
+- 用具体动作、同一任务中的例子和可观察的结果解释观点。精简重复表达，同时保留推理步骤、适用条件、例外和技术细节；同一概念保持术语一致。
+- 语气像向熟悉 TS / Node.js 的同事讲解，直接、自然，句子长短随内容变化。有用户写作样本时沿用其表达习惯；没有样本时保持平实。删除空泛开场、无信息的过渡、机械排比和重复结论，结尾停在有用的信息或下一步行动上。
+- 标题帮助定位，列表用于步骤或并列事项，表格用于比较；保留教学所需的 TS / Python 对照和关键差异加粗。按中文习惯运用技能，不机械套用英文标点规则，也不为消除“AI 感”刻意打乱结构、添加口头禅或制造错误。
+- 润色保持原意、事实、代码行为和引用一致。不得编造作者经历、情绪、观点、数据或来源；示例与真实证据明确区分，缺少依据时收窄表述或标明待核实。
+- 交付前通读全文，检查段落顺序是否连贯、抽象观点是否解释清楚、语句是否顺口、润色是否遗漏条件或改变结论，修正后交付。默认展示成稿和必要的修改说明；审稿过程、草稿及“去 AI”检查不写入文章正文。
 
 ## 项目运行与页面
 
-- 本项目用 uv 管理 Python 版本、环境和依赖。课程命令从项目根目录执行，使用 `uv run python ...`；安装部分给官方入口，由读者选择适合自己电脑的安装方式。
-- 新建或修改页面前，参照 [第一课](lessons/0001-build-and-run.html) 的骨架、资源加载顺序与交互属性，并阅读 [README.md](README.md) 中的目录维护和检查说明。
-- 复用 `assets/python-theme.css` 和已有阅读器、测验、目录导航脚本。保持 TS / Python 高亮、代码复制、章节定位、明暗主题、移动布局和键盘访问。
-- 全站导航图标及 favicon 统一使用 `assets/python-logo.svg`。Logo 保留官方颜色；页面与代码配色按共享主题维护，来源见 [assets/ASSETS.md](assets/ASSETS.md)。
-- 新课同步更新 `assets/courses.js`、章节锚点和路线；正文与示例就绪后再设置课程 href。维护检查按 README 执行。
-
-## 技能副本
-
-`.agents/skills/` 来自 Rust Journey，保留通用说明与配套文件；Python 的调用方式见技能指南。迁移时不带入 Rust 课程或学习记录。更新副本时保留未要求改变的调用元数据，并检查相对引用和配套资源。
+- 用 uv 管理 Python 版本、环境和依赖；课程命令从项目根目录执行，使用 `uv run python ...`。安装提供官方入口，由读者选择方式。
+- 新建或修改页面前，阅读 [README 的目录维护与检查说明](README.md#目录维护)，参照 [第一课](lessons/0001-build-and-run.html) 复用骨架与共享资源；完成后执行 README 中的维护检查。
+- 更新本地技能副本时，遵循 [技能指南的维护约定](docs/learning-skills.md#本地技能维护)。

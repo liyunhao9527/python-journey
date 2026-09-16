@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="用 Python 读取输入、清理字符串并输出学习摘要。" />
+  <title>03 · 字符串与输入输出 · Python Journey</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/python-logo.svg" />
+  <link rel="stylesheet" href="../assets/python-theme.css" />
+  <script defer src="../assets/courses.js"></script>
+  <script defer src="../assets/course-ui.js"></script>
+  <script defer src="../assets/vendor/highlight.min.js"></script>
+  <script defer src="../assets/highlight-init.js"></script>
+  <script defer src="../assets/lesson-reader.js"></script>
+  <script defer src="../assets/quiz.js"></script>
+</head>
+<body data-lesson="0003" data-course-root="../">
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header wrap"><nav aria-label="主导航">
+    <a class="brand" href="../index.html" data-home><img src="../assets/python-logo.svg" width="40" height="40" alt="" /><span>Python Journey<small>面向 TypeScript 开发者</small></span></a>
+    <div class="nav-links"><a href="../courses.html" data-directory>全部课程</a><a href="../index.html#path-title">学习路线</a><a href="../index.html#projects">实战项目</a><a class="nav-start" href="0001-build-and-run.html" data-resume>继续学习 ↗</a></div>
+  </nav></header>
+  <main id="content" class="wrap">
+    <header class="lesson-heading"><p class="eyebrow">LESSON 03 / 基础语法 / 约 25 分钟</p><h1>把输入变成学习摘要。</h1><p>读入文字、转换分钟数，再输出清楚的结果。</p><div class="goal"><strong>本课目标：</strong>独立用 input、strip、切片和 f-string 制作交互式计时摘要。</div></header>
+    <div class="lesson-shell">
+      <aside class="lesson-rail"><nav class="lesson-outline" aria-label="本课目录">
+        <a href="#recall">1. 先预测，再继续</a><a href="#input">2. input 读到的是文本</a><a href="#summary">3. 清理与格式化</a><a href="#slice">4. 截取一段文字</a><a href="#unicode">5. 文字与编码</a><a href="#exercise">6. 独立完成摘要</a><a href="#sources">本课参考</a>
+      </nav></aside>
+      <article class="lesson-article">
+        <section class="lesson-section" id="recall"><h2>1. 先预测，再继续</h2>
+          <p>这次把计时脚本变成小工具：使用者输入姓名与分钟数，程序输出学习摘要。后面的文件清单 CLI 也会经历“读取文本 → 转成数据 → 输出结果”。</p>
+          <p>先预测下面的输出，再解释原因。若说不清重新绑定与共享修改的区别，回看<a href="0002-objects-and-types.html#shared">第二课</a>，把不确定的地方发给我。</p>
+          <pre><code class="language-python">minutes = 25
+original = minutes
+minutes = minutes + 5
+print(original, minutes)</code></pre>
+          <details><summary>核对回忆</summary><p>输出 25 30。minutes 重新绑定到加法结果，original 仍绑定到 25。今天的字符串也不可变：清理文字后，需要保存返回的结果。</p></details>
+        </section>
+        <section class="lesson-section" id="input"><h2>2. input 读到的是文本</h2>
+          <p><strong>input() 是读取一行终端输入的 Python 内置函数。</strong>它显示提示，等待你输入并按回车，返回字符串 str；末尾换行被移除，两端空格仍保留。使用它后，就能换输入运行脚本，不必每次改源码。</p>
+          <p>即使键入 25，返回的也是文本 "25"。第二课的 int() 负责把合法整数文本转为整数。</p>
+          <pre><code class="language-python">raw_minutes = input("分钟：")
+print(type(raw_minutes))
+minutes = int(raw_minutes)
+print(minutes + 5)</code></pre>
+          <p>输入 25，类型输出是 <code>&lt;class 'str'&gt;</code>，计算结果为 30。<strong>input 不负责数字转换，也不检查业务范围。</strong>本课先输入非负整数文本：空行、abc、25.5 传给 int 都会报 ValueError。负整数能转换，但未必符合计时业务；校验在条件与异常课程展开。</p>
+          <p>官方规则：<a href="https://docs.python.org/3.14/library/functions.html#input">input</a> 与 <a href="https://docs.python.org/3.14/library/functions.html#int">int</a>。</p>
+        </section>
+        <section class="lesson-section" id="summary"><h2>3. 清理姓名，格式化摘要</h2>
+          <p><code>strip()</code> 是字符串的方法，即通过字符串对象调用的操作。它返回去掉两端空白后的结果，用来清理误输入的空格；它不删除中间的空格，也不修改原字符串。</p>
+          <p><strong>f-string 把表达式的结果放进文本。</strong>字符串前加 f，花括号中写表达式。<code>{hours:.2f}</code> 的冒号引出格式规则，<code>.2f</code> 表示按定点格式显示两位小数；它只控制显示，不改变 hours 的值。这适合把分钟换成易读的小时数。</p>
+          <p>完整示例在 <code>demos/03-strings/main.py</code>：</p>
+          <pre><code class="language-python">raw_name = input("姓名：")
+raw_minutes = input("分钟：")
+name = raw_name.strip()
+minutes = int(raw_minutes)
+hours = minutes / 60
+print(f"{name}，本次学习 {minutes} 分钟（{hours:.2f} 小时）。")</code></pre>
+          <p>从项目根目录执行：</p>
+          <pre><code class="language-plaintext">uv run python demos/03-strings/main.py</code></pre>
+          <p>输入带两端空格的“  小林  ”并回车，再输入 25。最后一行为：</p>
+          <pre><code class="language-plaintext">小林，本次学习 25 分钟（0.42 小时）。</code></pre>
+          <p>把分钟改为 30，先预测再运行。随后在脚本末尾临时加 <code>print(hours)</code>，输入 25，观察原数值与两位小数显示的区别。</p>
+          <h3>同一个任务的 TypeScript / Node.js 写法</h3>
+          <p>Node 用 readline 接口读取一行；question 返回 Promise，await 等待输入，close 释放接口。这里借用你熟悉的 Node 写法，不要求在 Python 中学习异步。示例使用 ES 模块，保存为 <code>demos/03-strings/equivalent.mts</code>：</p>
+          <pre><code class="language-typescript">import { createInterface } from "node:readline/promises";
+import { stdin, stdout } from "node:process";
+
+const terminal = createInterface({ input: stdin, output: stdout });
+const rawName = await terminal.question("姓名：");
+const rawMinutes = await terminal.question("分钟：");
+terminal.close();
+const name = rawName.trim();
+const minutes = Number(rawMinutes);
+const hours = minutes / 60;
+console.log(`${name}，本次学习 ${minutes} 分钟（${hours.toFixed(2)} 小时）。`);</code></pre>
+          <p>支持原生 TS 类型擦除的 Node 可执行 <code>node demos/03-strings/equivalent.mts</code>；也可沿用已有 TS 工具链。<strong>Node 执行不替代 tsc 类型检查。</strong></p>
+          <div class="table-scroll"><table><thead><tr><th>同目标操作</th><th>差异与类比边界</th><th>优势、代价与场景</th></tr></thead><tbody>
+            <tr><td>input / question</td><td><strong>input 在当前线程等待；question 返回 Promise。</strong>这里都提供字符串。</td><td>Python 顺序小脚本简短；Node 便于接入异步流程，但要管理接口生命周期。</td></tr>
+            <tr><td>strip / trim</td><td>本例都清理两端空格并返回结果；具体 Unicode 空白集合不完全相同。</td><td>清理本课姓名无明显优劣，都应保留有意义的内部空格。</td></tr>
+            <tr><td>int / Number</td><td><strong>int("") 报错，Number("") 为 0；int("25.5") 报错，Number("25.5") 为 25.5。</strong>TS 的 string 类型不能证明文本是数字。</td><td>int 直接拒绝非整数文本；Number 支持更多数值形式，计时输入仍要校验。</td></tr>
+            <tr><td>f-string / 模板字符串</td><td>此处 .2f 与 toFixed(2) 都生成两位小数文本；不能推断所有舍入边界都一致。</td><td>Python 在占位符中声明格式，JS 调用方法后插值。本课无明显优劣；显示格式不能消除浮点误差。</td></tr>
+          </tbody></table></div>
+        </section>
+        <section class="lesson-section" id="slice"><h2>4. 用切片取得一段文字</h2>
+          <p><strong>切片是按位置取出一段序列的写法。</strong><code>text[start:stop]</code> 取起点到终点之前的内容，位置从 0 开始；省略 start 表示从开头开始。下面从固定格式标签提取日期，不会修改原文字。</p>
+          <pre><code class="language-python">label = "2026-09-15 Python"
+print(label[:10])
+print(label[11:])
+print(label[-1])</code></pre>
+          <pre><code class="language-typescript">const label = "2026-09-15 Python";
+console.log(label.slice(0, 10));
+console.log(label.slice(11));
+console.log(label.at(-1));</code></pre>
+          <p>两段依次输出 2026-09-15、Python、n。<code>[-1]</code> 是索引，取得最后一个位置的字符；它不是切片。JS 用 at(-1) 表达这个目标。</p>
+          <ul><li><strong>差异：</strong>Python 用方括号和冒号，JS 用 slice 方法；本例都是含起点、不含终点。JS 字符串的 [-1] 不代表最后一个字符。</li><li><strong>边界：</strong>空字符串的 Python [-1] 报 IndexError，JS at(-1) 返回 undefined；两者切片超过末尾都会截到可用范围。固定位置提取不能代替日期校验。</li><li><strong>取舍：</strong>Python 切片简短，JS 方法名直白；此任务无明显优劣，标签格式变化时都要调整。</li></ul>
+          <div data-quiz data-explanation="起点 0 包含，终点 2 不包含，因此取位置 0 和 1。" data-incorrect="终点不包含在切片中，再数一下位置 0、1、2。"><h3>"Python"[:2] 得到什么？</h3><button type="button" data-correct="true">Py</button><button type="button">yt</button><button type="button">th</button><p role="status" aria-live="polite"></p></div>
+        </section>
+        <section class="lesson-section" id="unicode"><h2>5. 文字长度不等于字节数</h2>
+          <p><strong>Unicode 为文字中的字符等分配编号，称为码点；编码规定如何把文字变成字节。</strong>Python str 表示 Unicode 文本，UTF-8 是一种常见编码。区分文本与字节，才能理解为什么中文文件大小不等于文字长度。</p>
+          <p>Python 的 len(text) 计算码点数，JS 的 length 计算 UTF-16 代码单元数。一个代码单元是 UTF-16 的一个 16 位单位，有些码点需要两个单位。用一个 emoji 观察区别：</p>
+          <pre><code class="language-python">text = "A🐍"
+print(len(text))
+print(text[1])</code></pre>
+          <pre><code class="language-typescript">const text = "A🐍";
+console.log(text.length);
+console.log(text.slice(1));</code></pre>
+          <p>Python 输出 2 和 🐍，JS 输出 3 和 🐍。JS 此处取从位置 1 到结尾的整段，避免截断 emoji 的两个代码单元。</p>
+          <ul><li><strong>差异：</strong>Python 按码点计数，JS length 按 UTF-16 单元计数。</li><li><strong>边界：</strong>两者都不是 UTF-8 字节数，也不保证等于人眼看到的字符数；组合音标与组合 emoji 可能含多个码点。</li><li><strong>取舍：</strong>Python 对单码点 emoji 的索引直观，显示字符分割仍需更多规则；JS 原生操作便于按代码单元处理，面向用户的计数需额外处理。上一节 ASCII 日期位置在两者中一致。</li></ul>
+          <p>保存脚本为 UTF-8。本课只理解边界，读写文件时指定编码留到文件课。</p>
+        </section>
+        <section class="lesson-section" id="exercise"><h2>6. 独立完成一张学习摘要</h2>
+          <p>新建自己的 <code>demos/03-strings/practice.py</code>，合上示例再写：输入主题与分钟数，去掉主题两端空白，输出主题前四个码点、整数分钟与两位小数小时数。先预测，再逐组运行：</p>
+          <div class="table-scroll"><table><thead><tr><th>主题输入</th><th>分钟输入</th><th>观察重点</th></tr></thead><tbody><tr><td>两端带空格的 Python</td><td>25</td><td>清理、截取、格式</td></tr><tr><td>列表</td><td>0</td><td>切片超过长度、零分钟</td></tr><tr><td>字符串练习</td><td>90</td><td>四个码点、一小时以上</td></tr></tbody></table></div>
+          <pre><code class="language-plaintext">uv run python demos/03-strings/practice.py</code></pre>
+          <details><summary>完成后核对输出内容</summary><p>依次包含：Pyth、25、0.42；列表、0、0.00；字符串练、90、1.50。标点自己设计，主题片段与数值必须来自输入和计算。</p></details>
+          <p>再用 abc 作为分钟输入，记录最后一行异常，指出程序停在哪个操作。暂不要求捕获异常；空字符串与 0 也不是同一个输入。</p>
+          <p>把自己的代码、运行命令、三组实际输出和解释发给我：为什么 input 后要转换？strip 为什么要保存结果？.2f 是否改变 hours？独立预测、修改、运行与解释才用于判断掌握。</p>
+          <p>遇到不明白的术语，直接引用那一句问我。复习用<a href="../reference/strings-and-input.html">字符串与输入输出速查</a>。下一课学习用列表与字典保存多条记录。</p>
+        </section>
+        <section class="lesson-section" id="sources"><h2>本课参考</h2><p>首选读官方教程的文字小节，重点看索引与切片。</p><ul>
+          <li><a href="https://docs.python.org/3.14/tutorial/introduction.html#text">Python 3.14：文字、索引与切片</a></li>
+          <li><a href="https://docs.python.org/3.14/tutorial/inputoutput.html#formatted-string-literals">Python 3.14：格式化字符串</a></li>
+          <li><a href="https://docs.python.org/3.14/library/stdtypes.html#text-sequence-type-str">Python 3.14：Unicode 字符串与 strip</a></li>
+          <li><a href="https://nodejs.org/api/readline.html#rlquestionquery-options">Node.js：readline question</a></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length">MDN：JS 字符串长度</a></li>
+        </ul></section>
+      </article>
+    </div>
+    <nav class="lesson-pagination" aria-label="课程翻页" data-lesson-pagination></nav>
+  </main>
+  <footer class="site-footer wrap"><a href="../index.html">Python Journey</a><p>一次预测，一段代码，一份可验证的结果。</p><a href="../reference/index.html">常用命令速查 ↗</a></footer>
+</body>
+</html>

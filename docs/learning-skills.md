@@ -1,6 +1,6 @@
 # Python 学习技能使用指南
 
-以 TypeScript / Node.js 经验为起点，用 `teach` 小步学习 Python。编写课程和解释概念时配合 `writing-clearly-and-concisely`；其他技能按当前障碍选择。
+以 TypeScript / Node.js 经验为起点，用 `teach` 小步学习 Python。文章与文档先用 `writing-clearly-and-concisely` 整理表达，再用 `humanizer` 润色；其他技能按当前障碍选择。
 
 ## 按问题选择
 
@@ -8,6 +8,7 @@
 | --------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------- |
 | 开始一个概念、继续上一课或设计练习      | [teach](../.agents/skills/teach/SKILL.md)                                                 | 先解释概念，再预测、修改和运行，根据反馈复习    |
 | 讲解具体、简洁且推理完整                | [writing-clearly-and-concisely](../.agents/skills/writing-clearly-and-concisely/SKILL.md) | 每段一个重点，保留理解所需的因果与前提          |
+| 文章语气自然，减少套话和机械表达        | [humanizer](../.agents/skills/humanizer/SKILL.md) | 成稿后润色，保留事实、术语和作者表达习惯 |
 | 没听懂，或解释跳过了前提                | [wait-what](../.agents/skills/wait-what/SKILL.md)                                         | 接着同一个问题换种说法，用最小例子补齐推理      |
 | 查证 Python 规则、uv 行为或 TS 类比边界 | [research](../.agents/skills/research/SKILL.md)                                           | 查官方来源，将带引用的结论保存在 docs/research/ |
 | 反复出现运行错误、错误输出或性能问题    | [diagnosing-bugs](../.agents/skills/diagnosing-bugs/SKILL.md)                             | 最小复现，每次改变一个条件，验证原因            |
@@ -20,6 +21,12 @@
 > 读取并使用仓库里的 teach 和 writing-clearly-and-concisely，带我学习 Python 列表的赋值与复制。以 TS 数组为对照，明确相似之处和差异，先让我预测输出，等我回答后再验证。
 
 课程编写遵守 [AGENTS.md](../AGENTS.md)：首次使用一个概念时，先在正文中解释它是什么、解决什么问题，再给命令或代码。用户要求完整课程页面时交付完整内容；互动答题时遵循用户指定的等待与提示节奏。
+
+### 写文章与润色
+
+> 读取仓库里的 writing-clearly-and-concisely 和 humanizer，按 AGENTS.md 的“写作与审稿”要求编写或修改这篇文章。先围绕读者的问题理顺内容，再润色语言，最后核对原意和事实。直接给成稿，并简要说明必要的改动。
+
+两项技能的英文示例用于理解原则；中文适配和交付要求以 [AGENTS.md](../AGENTS.md#写作与审稿) 为准。写课程时仍先用 teach 安排教学内容。
 
 ### 没听懂
 
@@ -45,10 +52,12 @@
 
 静态关系用 Mermaid 或状态表即可；只有交互确实有帮助时才使用交互展示。仓库保留了 visualize 的脚本和资源，但展示效果仍取决于应用支持。制作课程 HTML 时沿用项目共享样式。
 
-## 迁移来源与维护
+## 本地技能维护
 
-2026-09-15 从相邻项目 `rust-journey/.agents/skills/` 复制全部 6 个技能，共 21 个文件：技能说明、teach 的格式模板、写作参考、agents 元数据、诊断辅助脚本，以及 visualize 的脚本和资源。迁移时逐文件保持内容一致。
+`.agents/skills/` 保存本地技能及其格式模板、写作参考、agents 元数据、辅助脚本和资源。
 
-这些是项目本地副本，不会随源项目或个人技能自动更新。迁移没有修改全局技能配置；具体选择器是否展示它们取决于应用的发现机制，需要时可以直接指定仓库路径读取。
+`humanizer` 于 2026-09-16 从 [blader/humanizer](https://github.com/blader/humanizer) 下载，技能版本为 3.0.0，采用 MIT 许可；保留上游技能、LICENSE 和配套文件。`writing-clearly-and-concisely` 沿用仓库已有副本。
 
-`AGENTS.md` 明确要求写课时读取 teach 和写作技能，其他技能按需读取；保留原有 frontmatter 和 agents 元数据，不靠更改调用开关适配项目。Python 的工具约定与中文教学方式在项目约定和本指南中维护。
+本地技能独立维护，不会随个人技能自动更新，也不修改全局技能配置。选择器是否展示它们取决于应用的发现机制，需要时直接指定仓库路径读取。
+
+更新副本时保留未要求改变的 frontmatter、agents 元数据和配套资源，检查相对引用。技能触发条件与教学规则以 [AGENTS.md](../AGENTS.md) 为准，本指南维护 Python 调用示例与适配说明。

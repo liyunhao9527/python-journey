@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Python 学习路线：从基础语法到自动化、数据分析与 Web API 实战。"
+    />
+    <title>变量与对象 · Python Journey</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/python-logo.svg" />
+    <link rel="stylesheet" href="../assets/python-theme.css" />
+    <script defer src="../assets/courses.js"></script>
+    <script defer src="../assets/course-ui.js"></script>
+    <script defer src="../assets/vendor/highlight.min.js"></script>
+    <script defer src="../assets/highlight-init.js"></script>
+    <script defer src="../assets/lesson-reader.js"></script>
+    <script defer src="../assets/quiz.js"></script>
+  </head>
+  <body data-course-root="../">
+    <a class="skip-link" href="#content">跳到正文</a>
+    <header class="site-header wrap">
+      <nav aria-label="主导航">
+        <a class="brand" href="../index.html" data-home
+          ><img
+            src="../assets/python-logo.svg"
+            width="40"
+            height="40"
+            alt=""
+          /><span>Python Journey<small>面向 TypeScript 开发者</small></span></a
+        >
+        <div class="nav-links">
+          <a href="../courses.html" data-directory>全部课程</a
+          ><a href="../index.html#path-title">学习路线</a
+          ><a href="../index.html#projects">实战项目</a
+          ><a
+            class="nav-start"
+            href="../lessons/0001-build-and-run.html"
+            data-resume
+            >从第一课开始 ↗</a
+          >
+        </div>
+      </nav>
+    </header>
+    <main id="content" class="wrap">
+<header class="lesson-heading"><p class="eyebrow">QUICK REFERENCE / 02</p><h1>变量与对象速查。</h1><p>先区分重新绑定、修改内容与比较对象。</p></header><article class="lesson-article"><section class="lesson-section" id="rules"><h2>四条规则</h2><ul><li>赋值绑定名字，不自动复制对象。</li><li>int、float、bool、str 不可变；list 可原地修改。</li><li>== 判断相等，is 判断身份；缺失值通常用 is None。</li><li>type(x) 查看类型；int("25") 将合法整数文本转换为整数。</li></ul><pre><code class="language-python">a = [25]
+b = a
+b.append(5)  # a 也能看到 [25, 5]
+b = [5]     # 只重新绑定 b，a 仍是 [25, 5]</code></pre><p>Python 列表 == 比较元素；JS 数组 === 比较身份。这个类比只适用于这里的容器，不能推广到所有类型。Python 方便核对列表内容，JS 数组身份判断适合确认共享；按任务选择，详见<a href="../lessons/0002-objects-and-types.html#identity">差异与边界</a>。</p><p><a href="../lessons/0002-objects-and-types.html">返回第二课与练习</a> · <a href="index.html">常用命令</a> · <a href="https://docs.python.org/3.14/reference/datamodel.html#objects-values-and-types">官方数据模型</a></p></section></article>    </main>
+    <footer class="site-footer wrap">
+      <a href="../index.html">Python Journey</a>
+      <p>一次预测，一段代码，一份可验证的结果。</p>
+      <a href="../reference/index.html">常用命令速查 ↗</a>
+    </footer>
+  </body>
+</html>

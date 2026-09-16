@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Python 列表、元组、字典、集合与浅复制速查。" />
+  <title>容器速查 · Python Journey</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/python-logo.svg" />
+  <link rel="stylesheet" href="../assets/python-theme.css" />
+  <script defer src="../assets/courses.js"></script>
+  <script defer src="../assets/course-ui.js"></script>
+  <script defer src="../assets/vendor/highlight.min.js"></script>
+  <script defer src="../assets/highlight-init.js"></script>
+  <script defer src="../assets/lesson-reader.js"></script>
+  <script defer src="../assets/quiz.js"></script>
+</head>
+<body data-course-root="../">
+  <a class="skip-link" href="#content">跳到正文</a>
+  <header class="site-header wrap"><nav aria-label="主导航">
+    <a class="brand" href="../index.html" data-home><img src="../assets/python-logo.svg" width="40" height="40" alt="" /><span>Python Journey<small>面向 TypeScript 开发者</small></span></a>
+    <div class="nav-links"><a href="../courses.html" data-directory>全部课程</a><a href="../index.html#path-title">学习路线</a><a href="../index.html#projects">实战项目</a><a class="nav-start" href="../lessons/0001-build-and-run.html" data-resume>继续学习 ↗</a></div>
+  </nav></header>
+  <main id="content" class="wrap">
+<header class="lesson-heading"><p class="eyebrow">QUICK REFERENCE / 04</p><h1>容器速查。</h1><p>按数据要怎样使用来选容器。</p></header>
+<article class="lesson-article">
+<section class="lesson-section" id="choose"><h2>选择容器</h2>
+<div class="table-scroll"><table><thead><tr><th>类型</th><th>用途与写法</th><th>边界</th></tr></thead><tbody>
+<tr><td>list 列表</td><td>按顺序保存可增删的数据：[first, second]</td><td>索引从 0 开始，越界报 IndexError；[-1] 取末项，空列表仍会报错。</td></tr>
+<tr><td>dict 字典</td><td>按键保存字段：{"topic": "容器", "minutes": 30}</td><td>用 ["topic"] 读取；缺键报 KeyError。Python 3.7+ 保留插入顺序，整数键不表示字段位置。</td></tr>
+<tr><td>tuple 元组</td><td>固定位置的组合：("容器", 30)</td><td>不能增删或替换元素；内层可变对象仍能修改。单元素需要逗号。</td></tr>
+<tr><td>set 集合</td><td>去重、判断成员：set(["容器", "容器"])</td><td>不保证顺序，不能按位置索引。空集合 set()；{} 是空字典。</td></tr>
+</tbody></table></div>
+<p>dict 的键与 set 的元素必须可哈希，即哈希值稳定且符合相等性规则。字符串与整数可用，list 与 dict 不可用；不要用 set(records) 给字典记录去重。</p>
+</section>
+<section class="lesson-section" id="operations"><h2>读取、修改与复制</h2>
+<p>append 在原列表末尾追加一个元素，返回 None；get 在键不存在时返回指定的默认值，不写入字典；copy 创建外层容器的浅复制。</p>
+<pre><code class="language-python">records = [{"topic": "容器", "minutes": 30}]
+records.append({"topic": "字符串", "minutes": 25})
+print(len(records))                  # 2
+print(records[0]["minutes"])         # 30
+print("note" in records[0])          # False：查键
+print(records[0].get("note", "未填写"))
+
+draft = records.copy()              # 新列表，内部字典仍共享
+draft[0] = draft[0].copy()           # 再复制第一条字典
+draft[0]["minutes"] = 40
+print(records[0]["minutes"])         # 30</code></pre>
+<p><strong>copy 只复制一层。</strong>本例记录只有字符串、整数值，可以独立替换字段；若字段里还有列表，那一层仍共享。get 遇到已存在且值为 None 的键，返回 None。</p>
+</section>
+<section class="lesson-section" id="compare"><h2>TS / Python 对照边界</h2>
+<p>下面按同一个“保存学习记录”的任务对照；完整平行代码见<a href="../lessons/0004-containers.html#records">第四课</a>。</p>
+<div class="table-scroll"><table><thead><tr><th>目标</th><th>差异与边界</th><th>取舍</th></tr></thead><tbody>
+<tr><td>追加一条记录</td><td>list.append 返回 None；Array.push 返回新长度。</td><td>只需修改列表时无明显优劣；不要把 append 结果赋回列表名字。</td></tr>
+<tr><td>复制记录列表</td><td>list.copy() 与 [...array] 都只复制外层。</td><td>增删外层方便，修改内部记录仍需另行复制；本例无明显优劣。</td></tr>
+<tr><td>读取可选备注</td><td>dict.get 可提供缺键默认值；JS 可先用 Object.hasOwn 判断自有字段是否存在。TS 类型可提前指出未声明字段，Python [] 缺键在运行时报错。</td><td>Python 动态字段简便，TS 明确结构利于静态检查；两者都需区分缺失与已有空值。</td></tr>
+<tr><td>固定主题、分钟组合</td><td><strong>tuple 在运行时限制结构；TS readonly 元组只约束静态检查。</strong>两者都不保证内层对象不可变。</td><td>Python 直接限制替换位置，TS 能声明位置类型；字段多时用具名字段更易读。</td></tr>
+<tr><td>对字符串主题去重</td><td><strong>Python set 不保证顺序，JS Set 保留插入顺序。</strong>JS 可存对象并按身份区分；Python dict 不可作为 set 元素。</td><td>统计不同主题数无明显优劣；Python 如需保留原顺序，应保留列表。</td></tr>
+</tbody></table></div>
+<p><a href="../lessons/0004-containers.html#exercise">返回第四课练习</a> · <a href="index.html">常用命令</a> · <a href="https://docs.python.org/3.14/tutorial/datastructures.html">Python 3.14 官方数据结构教程</a></p>
+</section></article>  </main>
+  <footer class="site-footer wrap"><a href="../index.html">Python Journey</a><p>一次预测，一段代码，一份可验证的结果。</p><a href="../reference/index.html">常用命令速查 ↗</a></footer>
+</body>
+</html>

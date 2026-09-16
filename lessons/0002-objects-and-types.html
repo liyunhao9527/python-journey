@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Python 学习路线：从基础语法到自动化、数据分析与 Web API 实战。"
+    />
+    <title>02 · 变量、对象与基础类型 · Python Journey</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/python-logo.svg" />
+    <link rel="stylesheet" href="../assets/python-theme.css" />
+    <script defer src="../assets/courses.js"></script>
+    <script defer src="../assets/course-ui.js"></script>
+    <script defer src="../assets/vendor/highlight.min.js"></script>
+    <script defer src="../assets/highlight-init.js"></script>
+    <script defer src="../assets/lesson-reader.js"></script>
+    <script defer src="../assets/quiz.js"></script>
+  </head>
+  <body data-lesson="0002" data-course-root="../">
+    <a class="skip-link" href="#content">跳到正文</a>
+    <header class="site-header wrap">
+      <nav aria-label="主导航">
+        <a class="brand" href="../index.html" data-home
+          ><img
+            src="../assets/python-logo.svg"
+            width="40"
+            height="40"
+            alt=""
+          /><span>Python Journey<small>面向 TypeScript 开发者</small></span></a
+        >
+        <div class="nav-links">
+          <a href="../courses.html" data-directory>全部课程</a
+          ><a href="../index.html#path-title">学习路线</a
+          ><a href="../index.html#projects">实战项目</a
+          ><a
+            class="nav-start"
+            href="../lessons/0001-build-and-run.html"
+            data-resume
+            >从第一课开始 ↗</a
+          >
+        </div>
+      </nav>
+    </header>
+    <main id="content" class="wrap">
+      <header class="lesson-heading"><p class="eyebrow">LESSON 02 / 基础语法 / 约 25 分钟</p><h1>变量是对象的名字。</h1><p>预测重新赋值与共享修改，让计时数据按预期变化。</p><div class="goal"><strong>本课目标：</strong>解释一次赋值是否共享对象，并独立完成文本分钟数的转换与更新。</div></header><div class="lesson-shell"><aside class="lesson-rail"><nav class="lesson-outline" aria-label="本课目录"><a href="#recall">1. 先回忆，再往前走</a><a href="#binding">2. 赋值让名字指向对象</a><a href="#types">3. 类型属于对象</a><a href="#shared">4. 修改对象，会影响所有共享它的名字</a><a href="#identity">5. 相等不等于同一个对象</a><a href="#exercise">6. 独立完成：保留原来的分钟数</a><a href="#sources">本课参考</a></nav></aside><article class="lesson-article"><section class="lesson-section" id="recall"><h2>1. 先回忆，再往前走</h2><p>不翻笔记，说出运行自己计时脚本的命令，再解释虚拟环境怎样避免两个项目的依赖冲突。如果还卡在运行环境，先回到<a href="0001-build-and-run.html#environment">第一课的环境说明</a>，把具体命令与报错发给我。</p><p>今天继续处理学习时间。目标是预测：给另一个变量赋值以后，修改其中一个，另一个会不会变化？这会影响以后文件清单和数据报告是否意外共享数据。</p></section><section class="lesson-section" id="binding"><h2>2. 赋值让名字指向对象</h2><p><strong>对象是 Python 表示数据的基本单位；变量名是访问对象的名字。</strong>对象有类型、值和身份。类型决定支持哪些操作，身份用于区分“同一个对象”与“值相同的另一个对象”。赋值 <code>=</code> 先计算右边，再把左边的名字绑定到结果对象，不会自动复制对象。</p><p>整数 <code>int</code> 是不可变对象：整数自身的值不能改。下面的加法计算出 30，再让 <code>minutes</code> 指向结果；<code>previous</code> 仍指向 25。先预测输出，再展开解释。</p><pre><code class="language-python">minutes = 25
+previous = minutes
+minutes = minutes + 5
+print(previous, minutes)
+</code></pre><pre><code class="language-typescript">let minutes = 25;
+const previous = minutes;
+minutes = minutes + 5;
+console.log(previous, minutes);
+</code></pre><details><summary>核对预测</summary><p>两段都输出 <code>25 30</code>。赋值不是建立一个会跟随另一个名字变化的公式。</p></details><ul><li><strong>差异：</strong>Python 无需 let / const；JS 的 const 禁止重新绑定，let 允许重新绑定。</li><li><strong>类比边界：</strong>这里 Python 整数与 JS number 的赋值结果相同，但 JS number 是原始值，不能由此推断两种语言的所有数据模型都一样。</li><li><strong>优势与代价：</strong>Python 写计时脚本简短，但绑定保护要靠约定或检查工具；TS / JS 用 const 表达不重新绑定的意图，多一个声明选择。本例需要更新 minutes，TS / JS 选 let，保存 previous 选 const。</li></ul><p>规则来源：<a href="https://docs.python.org/3.14/reference/datamodel.html#objects-values-and-types">Python 3.14 数据模型</a>。</p></section><section class="lesson-section" id="types"><h2>3. 类型属于对象</h2><p><code>type(value)</code> 返回对象的类型，用于确认眼前的数据是什么。下面几种值会出现在计时脚本里；本课采用 Python 3.14。</p><div class="table-scroll"><table><thead><tr><th>Python 值与类型</th><th>同目标 TS 表达</th><th>差异、边界与选择</th></tr></thead><tbody><tr><td>25：int，整数分钟</td><td>25：number</td><td>Python int 支持任意精度，受内存限制；JS number 仅在安全整数范围内保证整数精确。本课小整数无明显优劣。</td></tr><tr><td>0.5：float，小时比例</td><td>0.5：number</td><td>两者通常都用二进制浮点，不能精确表示所有十进制小数。方便算比例，金额精确对账另选方案。</td></tr><tr><td>True / False：bool，是否完成</td><td>true / false：boolean</td><td><strong>Python 首字母大写。</strong>本课都用于表达真假，无明显优劣。</td></tr><tr><td>"25"：str，文本分钟</td><td>"25"：string</td><td>文本不是数字，计算前需转换；Python str 不可变，JS string 是不可变原始值。</td></tr><tr><td>None：NoneType，尚无记录</td><td>null：显式空值</td><td>可类比“没有值”；<strong>Python 没有独立的 undefined 值</strong>。TS 开启 strictNullChecks 时会区分 null 与 number；Python 执行本身不提供这种静态检查。</td></tr></tbody></table></div><pre><code class="language-python">minutes = 25
+print(type(minutes))
+minutes = &quot;25&quot;
+print(type(minutes))</code></pre><p>依次得到 <code>&lt;class 'int'&gt;</code> 和 <code>&lt;class 'str'&gt;</code>。这是名字换了绑定对象。对应的 TS <code>let minutes = 25; minutes = "25";</code> 会被类型检查器拒绝，因为推断为 number；JS 运行时允许这次赋值。<strong>TS 静态检查、Node 执行与 Python 执行要分开看。</strong>Python 的灵活性适合短脚本，但同名变量反复换类型会增加阅读成本；本课保持 minutes 为整数。</p><p>计算文本分钟时，<code>int("25")</code> 把合法的整数文本转换为整数。<code>"25" + 5</code> 在 Python 中抛出 TypeError；JS 会得到字符串 <code>"255"</code>。Python 的显式转换便于发现类型不匹配，代价是多写转换；JS 拼接方便，但计算时要留意隐式转换。本课输入固定为合法整数文本，无效文本处理留到异常课。</p><pre><code class="language-python">raw_minutes = &quot;25&quot;
+minutes = int(raw_minutes)
+print(minutes + 5)
+print(minutes / 60)</code></pre><pre><code class="language-typescript">const rawMinutes = &quot;25&quot;;
+const minutes = Number(rawMinutes);
+console.log(minutes + 5);
+console.log(minutes / 60);</code></pre><p>都先输出 30，再输出约 0.4167。Python 的整数 <code>/</code> 运算返回 float；JS number 除法仍返回 number。这里转换结果相同，但 int 与 Number 并非通用等价转换器：例如 <code>int("")</code> 报错，<code>Number("")</code> 为 0。</p></section><section class="lesson-section" id="shared"><h2>4. 修改对象，会影响所有共享它的名字</h2><p><strong>可变对象允许在原对象上修改内容。</strong>列表 list 是按顺序保存元素的容器；<code>[25]</code> 创建一个包含整数 25 的列表，<code>.append(5)</code> 在这个列表末尾添加 5。本课用它保存每次学习的分钟数，不展开其他列表操作。</p><pre><code class="language-python">sessions = [25]
+shared = sessions
+shared.append(5)
+print(sessions, shared)</code></pre><pre><code class="language-typescript">const sessions = [25];
+const shared = sessions;
+shared.push(5);
+console.log(sessions, shared);</code></pre><details><summary>先预测两个列表的内容，再看解释</summary><p>两个名字看到的内容都是 <code>[25, 5]</code>。它们指向同一个列表：修改 shared 指向的对象，也能通过 sessions 看到。Node 输出数组的空格排版可能不同。</p></details><ul><li><strong>相同点：</strong>本例 Python list 和 JS Array 都共享对象；简单赋值不会创建独立容器。</li><li><strong>失效边界：</strong>const 保护的是绑定，不能阻止 push；Python 整数的重新赋值也不能类比为列表的原地修改。</li><li><strong>优势与代价：</strong>共享对象省去复制，适合共同维护同一份记录；需要独立修改时容易互相影响。两种语言在本例没有明显优劣，都要明确是否共享。</li></ul><p>现在把 <code>shared.append(5)</code> 换成 <code>shared = [5]</code>，先预测再运行。新写法创建另一个列表并重新绑定 shared；sessions 仍为 <code>[25]</code>。TS 对照若做同样重新绑定，需将 shared 的声明改成 let。</p></section><section class="lesson-section" id="identity"><h2>5. 相等不等于同一个对象</h2><p><code>==</code> 判断相等，<code>is</code> 判断是否为同一个对象。对本课的整数列表，Python <code>==</code> 比较对应元素；我们用两个新建列表区分内容和身份。</p><pre><code class="language-python">a = [25, 5]
+b = [25, 5]
+c = a
+print(a == b)
+print(a is b)
+print(a is c)</code></pre><pre><code class="language-typescript">const a = [25, 5];
+const b = [25, 5];
+const c = a;
+console.log(a === b);
+console.log(a === c);</code></pre><ul><li><strong>差异：</strong>Python 输出 True、False、True；JS 输出 false、true。JS 数组的 === 判断身份，不逐项比较。</li><li><strong>类比边界：</strong>Python is 可类比本例数组的 ===，不能推广到 JS 原始值；Python == 也不是所有对象通用的深度比较算法。</li><li><strong>优势与代价：</strong>Python 列表内容比较方便核对记录，但可能要逐项检查；JS 数组身份比较适合确认共享，核对内容要另写规则。本课应根据“核对分钟数”或“确认共享”选择判断方式。</li></ul><p><strong>判断数字或字符串的值，用 ==，不要用 is。</strong>实现可能复用不可变对象，不能用某次整数身份判断的结果推断通用规则。判断“尚无记录”通常写 <code>record is None</code>；None 是单例，即只有一个这样的对象。<code>record = None</code> 后该判断为 True，而 0 表示已记录零分钟，并非缺失。</p><div data-quiz data-explanation="shared = sessions 共享同一列表，append 修改这个列表。" data-incorrect="再看操作：append 修改对象，赋值才重新绑定。可以重选。"><h3>sessions = [25]；shared = sessions；shared.append(5) 后，sessions 是什么？</h3><button type="button">[25, 0]</button><button type="button" data-correct="true">[25, 5]</button><button type="button">[25, 25]</button><p role="status" aria-live="polite"></p></div></section><section class="lesson-section" id="exercise"><h2>6. 独立完成：保留原来的分钟数</h2><p>先运行本课示例核对预测。所有命令都从项目根目录执行。</p><pre><code class="language-plaintext">uv run python demos/02-objects/main.py</code></pre><p>TS 对照位于 <code>demos/02-objects/equivalent.ts</code>，沿用第一课的 Node 类型擦除或已有 TS 工具链。Node 执行不替代 tsc 类型检查。</p><p>然后新建自己的 <code>demos/02-objects/practice.py</code>，不复制示例完成以下任务：</p><ol><li>用 raw_minutes 保存文本 "25"，转换为整数 minutes。</li><li>用 original 保留更新前的整数，再让 minutes 增加 5。</li><li>输出 original、minutes、minutes / 60，并解释为什么 original 没变。</li><li>分别将输入改为 "40" 和 "0"，先写预测，再运行。</li><li>独立写一个列表共享例子。分别用 append 和重新赋值修改第二个名字，解释第一份记录何时会变化。</li></ol><pre><code class="language-plaintext">uv run python demos/02-objects/practice.py</code></pre><details><summary>完成后核对数值</summary><p>输入 "25"：25、30、0.5；输入 "40"：40、45、0.75；输入 "0"：0、5、约 0.08333333333333333。输出必须来自计算。</p><p>original 保留原整数绑定，minutes 重新绑定到加法结果。共享列表的 append 修改同一对象；第二个名字重新赋值只改变自身绑定。</p></details><p>把自己的代码、运行命令、三组输出和解释发给我。有不明白的术语或结果，直接指出那一句，我会补齐前提。下一次先不看笔记回答：赋值为什么不是复制？随后进入字符串与输入输出。</p><p>复习时用<a href="../reference/objects-and-types.html">变量与对象速查</a>；独立预测、修改、运行和解释才是掌握证据。</p></section><section class="lesson-section" id="sources"><h2>本课参考</h2><p>优先读官方教程的列表小节，重点观察赋值后的共享修改。</p><ul><li><a href="https://docs.python.org/3.14/tutorial/introduction.html#lists">Python 3.14 官方教程：列表与赋值</a></li><li><a href="https://docs.python.org/3.14/tutorial/introduction.html#numbers">Python 3.14 官方教程：数值</a></li><li><a href="https://docs.python.org/3.14/reference/datamodel.html#objects-values-and-types">Python 3.14：对象、值与类型</a></li><li><a href="https://www.typescriptlang.org/docs/handbook/2/everyday-types.html">TypeScript Handbook：基础类型、推断与 null</a></li></ul></section></article></div>
+      <nav
+        class="lesson-pagination"
+        aria-label="课程翻页"
+        data-lesson-pagination
+      ></nav>
+    </main>
+    <footer class="site-footer wrap">
+      <a href="../index.html">Python Journey</a>
+      <p>一次预测，一段代码，一份可验证的结果。</p>
+      <a href="../reference/index.html">常用命令速查 ↗</a>
+    </footer>
+  </body>
+</html>

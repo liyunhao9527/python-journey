@@ -1,16 +1,19 @@
 # Python Journey
 
-面向 TypeScript / Node.js 开发者，从基础语法到进阶，再到三个真实项目的 Python 学习工作区。参考相邻 `rust-journey` 的组织方式，保留独立的课程内容与视觉主题。
+面向 TypeScript / Node.js 开发者，从基础语法到进阶，再到三个真实项目的 Python 学习工作区。课程内容、学习记录与视觉主题独立维护。
 
 直接打开 [index.html](index.html)；网页不需要 npm 安装或构建，代码高亮资源已保存在本地。
 
-- [全部课程](courses.html)：7 个阶段、29 节规划课程，目前第一课已开放。
+- [全部课程](courses.html)：7 个阶段、29 节规划课程，目前前四课已开放。
 - [第一课：把 Python 跑起来](lessons/0001-build-and-run.html)：环境、脚本、练习与自测。
+- [第二课：变量、对象与基础类型](lessons/0002-objects-and-types.html)：赋值、共享修改与类型转换。
+- [第三课：字符串与输入输出](lessons/0003-strings-and-input.html)：输入、清理、切片与格式化。
+- [第四课：列表、元组、字典和集合](lessons/0004-containers.html)：组织学习记录、选择容器与浅复制。
 - [学习路线](ROADMAP.md) / [学习目标](MISSION.md)
 - [三个项目的里程碑与验收](projects/index.html)
 - [常用命令](reference/index.html) / [资料来源](RESOURCES.md)
 - [学习记录模板](learning-records/TEMPLATE.md)
-- [学习技能使用指南](docs/learning-skills.md)：已迁入 Rust 项目的 6 个本地技能，教学与写作的使用要求见 [AGENTS.md](AGENTS.md)。
+- [学习技能使用指南](docs/learning-skills.md)：6 个项目本地技能，教学与写作的使用要求见 [AGENTS.md](AGENTS.md)。
 
 ## 开始学习
 
@@ -44,9 +47,11 @@ uv run python demos/01-hello/main.py
 
 课程复用 `assets/python-theme.css`，依次加载 courses、course-ui、highlight、highlight-init、lesson-reader、quiz 脚本，使用 defer。课页设置 `data-lesson` 与 `data-course-root="../"`。复用首课的章节、目录和翻页属性。Python 代码必须使用 `language-python`。
 
+修改页面时保持 TS / Python 高亮、代码复制、章节定位、明暗主题、移动布局和键盘访问；新课同步维护章节锚点。
+
 `course-ui.js` 记录最近访问课程，使用独立的 `python-journey:last-lesson` 本地存储键，不表示掌握。禁止存储时仍可导航；file:// 下通过课程 id 参数辅助保持返回入口。
 
-Logo 使用 Python 官方蓝黄双蛇标志，见 [素材来源](assets/ASSETS.md)。页面采用鸢尾紫与黄色；代码区保持深紫背景，随系统切换页面明暗主题。Go 青蓝、Java 松绿、Rust 锈橙的项目不作修改。
+全站导航图标及 favicon 统一使用 `assets/python-logo.svg`，保留官方蓝黄配色，见 [素材来源](assets/ASSETS.md)。页面与代码配色统一在共享主题中维护：页面采用鸢尾紫与黄色，代码区保持深紫背景，页面随系统切换明暗主题。
 
 ## 维护检查
 
@@ -57,4 +62,4 @@ uv run python -m unittest discover -s tests -p "test_*.py"
 node --test tests/courses.test.cjs
 ```
 
-共享交互及 Highlight.js 来自参考项目；第三方许可保留在 `assets/vendor/highlight.LICENSE`。
+代码高亮使用 Highlight.js，第三方许可保留在 `assets/vendor/highlight.LICENSE`。
