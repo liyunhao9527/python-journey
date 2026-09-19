@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="用 Python 的条件判断与循环逐条处理学习记录。"><title>05 · 条件判断与循环 · Python Journey</title><link rel="icon" type="image/svg+xml" href="../assets/python-logo.svg"><link rel="stylesheet" href="../assets/python-theme.css"><script defer src="../assets/courses.js"></script><script defer src="../assets/course-ui.js"></script><script defer src="../assets/vendor/highlight.min.js"></script><script defer src="../assets/highlight-init.js"></script><script defer src="../assets/lesson-reader.js"></script><script defer src="../assets/quiz.js"></script></head>
+<body data-lesson="0005" data-course-root="../"><a class="skip-link" href="#content">跳到正文</a><header class="site-header wrap"><nav aria-label="主导航"><a class="brand" href="../index.html" data-home><img src="../assets/python-logo.svg" width="40" height="40" alt=""><span>Python Journey<small>面向 TypeScript 开发者</small></span></a><div class="nav-links"><a href="../courses.html" data-directory>全部课程</a><a href="../index.html#path-title">学习路线</a><a href="../index.html#projects">实战项目</a><a class="nav-start" href="0001-build-and-run.html" data-resume>继续学习 ↗</a></div></nav></header>
+<main id="content" class="wrap"><header class="lesson-heading"><p class="eyebrow">LESSON 05 / 基础语法 / 约 30 分钟</p><h1>让程序按记录逐条工作。</h1><p>用条件选择路径，用循环处理任意多条数据。</p><div class="goal"><strong>本课目标：</strong>独立遍历记录、累计分钟数、筛选达标记录，并解释 <code>for</code> 与 <code>while</code> 的适用边界。</div></header><div class="lesson-shell"><aside class="lesson-rail"><nav class="lesson-outline" aria-label="本课目录"><a href="#recall">1. 先回忆容器</a><a href="#if">2. 条件选择</a><a href="#for">3. for 遍历与累计</a><a href="#while">4. while 与边界</a><a href="#exercise">5. 独立完成统计</a><a href="#sources">本课参考</a></nav></aside><article class="lesson-article">
+<section class="lesson-section" id="recall"><h2>1. 先回忆容器</h2><p>第四课把多条记录放进列表，把字段放进字典。现在的问题是：如果记录从两条变成任意多条，怎样避免重复写 <code>records[0]</code>、<code>records[1]</code>？控制流让同一段代码逐条执行。</p><pre><code class="language-python">records = [{"topic": "容器", "minutes": 30}, {"topic": "函数", "minutes": 20}]
+print(records[0]["minutes"] + records[1]["minutes"])</code></pre><p>先预测输出 50。下一步会把“取一条记录并处理”放进循环。</p></section>
+<section class="lesson-section" id="if"><h2>2. 条件选择</h2><p><strong><code>if</code> 只在条件为真时执行缩进代码。</strong><code>elif</code> 继续检查其他条件，<code>else</code> 处理前面都不满足的情况。每个分支的缩进必须一致；这不是排版，而是语法。</p><pre><code class="language-python">minutes = 20
+if minutes >= 25:
+    label = "完整"
+else:
+    label = "短练习"
+print(label)</code></pre><p>这里输出“短练习”。比较运算会产生 <code>True</code> 或 <code>False</code>；<code>if</code> 也会按真值判断空列表、空字符串和 0，但业务代码应明确写出条件。</p><pre><code class="language-typescript">const minutes = 20;
+const label = minutes >= 25 ? "完整" : "短练习";
+console.log(label);</code></pre><div class="table-scroll"><table><thead><tr><th>同一目标</th><th>差异与边界</th><th>取舍与场景</th></tr></thead><tbody><tr><td>二选一</td><td>Python 常用多行 <code>if/else</code>；TS 可用三元表达式。两者都按真值选择。</td><td>短表达式用三元式清楚；分支有副作用或多步操作时，多行结构更易读。</td></tr><tr><td>缺失值</td><td><strong>Python 的 <code>None</code>、JS 的 <code>null</code>/<code>undefined</code> 不是同一个运行时值。</strong>不要只靠类型提示代替检查。</td><td>边界输入先明确规则，再写条件；这样错误会在数据入口暴露。</td></tr></tbody></table></div><div data-quiz data-explanation="20 >= 25 为 False，所以执行 else 分支。" data-incorrect="先计算比较表达式，再看哪一个缩进块会执行。"><h3>当 minutes = 20 时，label 是什么？</h3><button type="button">完整</button><button type="button" data-correct="true">短练习</button><button type="button">空字符串</button><p role="status" aria-live="polite"></p></div></section>
+<section class="lesson-section" id="for"><h2>3. for 遍历与累计</h2><p><strong><code>for item in items</code> 从序列中依次取出每一项。</strong>循环体每次看到的 <code>record</code> 都是当前字典。累计变量要在循环前初始化。</p><pre><code class="language-python">records = [
+    {"topic": "字符串", "minutes": 25},
+    {"topic": "容器", "minutes": 30},
+    {"topic": "字符串", "minutes": 15},
+]
+total = 0
+long_sessions = []
+for index, record in enumerate(records, start=1):
+    total += record["minutes"]
+    if record["minutes"] >= 25:
+        long_sessions.append(record["topic"])
+    print(f"第 {index} 条：{record['topic']}（{record['minutes']} 分钟）")
+print(f"总计 {total} 分钟")
+print(f"达到 25 分钟：{', '.join(long_sessions)}")</code></pre><p>保存为 <code>demos/05-control-flow/main.py</code>，先写下五行输出，再执行：</p><pre><code class="language-plaintext">uv run python demos/05-control-flow/main.py</code></pre><details><summary>核对输出</summary><pre><code class="language-plaintext">第 1 条：字符串（25 分钟）
+第 2 条：容器（30 分钟）
+第 3 条：字符串（15 分钟）
+总计 70 分钟
+达到 25 分钟：字符串, 容器</code></pre></details><p><code>enumerate</code> 同时给出序号和元素；<code>start=1</code> 只改变显示序号，不改变列表索引。<code>range(3)</code> 产生 0、1、2，终点 3 不包含。</p><pre><code class="language-typescript">let total = 0;
+const longSessions: string[] = [];
+records.forEach((record, index) =&gt; {
+  total += record.minutes;
+  if (record.minutes &gt;= 25) longSessions.push(record.topic);
+  console.log(`第 ${index + 1} 条：${record.topic}`);
+});</code></pre><ul><li>共同目标：顺序处理数组 / 列表，并维护累计值。</li><li><strong>边界：</strong>Python <code>for</code> 遍历任意可迭代对象；这里的 TS <code>forEach</code> 回调不能用 <code>break</code> 结束外层遍历。</li><li>取舍：需要跳过或提前结束时，Python 可用 <code>continue</code> / <code>break</code>，TS 可用普通 <code>for...of</code>；仅做每项相同处理时，forEach 简洁。</li></ul></section>
+<section class="lesson-section" id="while"><h2>4. while 与边界</h2><p><strong><code>while</code> 适合“尚未满足条件就继续”的重复。</strong>循环体必须让条件最终改变，否则会无限循环。读取输入直到得到非空主题时，条件比固定次数更自然。</p><pre><code class="language-python">topic = ""
+attempts = 0
+while not topic:
+    topic = input("主题（不能为空）：").strip()
+    attempts += 1
+print(f"收到：{topic}，尝试 {attempts} 次")</code></pre><p>如果用户先输入空白，再输入容器，程序会循环两次。<code>break</code> 立即离开当前循环，<code>continue</code> 跳到下一轮；先用条件表达完整规则，再考虑它们。</p><div class="table-scroll"><table><thead><tr><th>循环</th><th>适合</th><th>风险</th></tr></thead><tbody><tr><td><code>for</code></td><td>遍历已有列表、字典或固定次数。</td><td>修改正在遍历的列表可能跳过元素；先建立结果列表更稳妥。</td></tr><tr><td><code>while</code></td><td>直到输入有效、队列为空或状态完成。</td><td>忘记更新状态会无限循环；可在开发时加尝试次数上限。</td></tr></tbody></table></div></section>
+<section class="lesson-section" id="exercise"><h2>5. 独立完成统计</h2><p>新建 <code>demos/05-control-flow/practice.py</code>，合上示例后完成：</p><ol><li>保留三条字典记录，自己替换主题和分钟数。</li><li>用一个 <code>for</code> 循环计算总分钟数，并输出每条记录的 1 起序号、主题和分钟。</li><li>只把分钟数至少 25 的主题放入新列表，输出不同主题数。不能手写每条索引。</li><li>加入一个 <code>while</code>：反复读取“继续吗？”，输入 <code>q</code> 才结束；统计实际循环次数。</li></ol><pre><code class="language-plaintext">uv run python demos/05-control-flow/practice.py</code></pre><p>运行前预测下面两组数据的总分钟数、达标主题和循环次数，再记录实际输出：</p><div class="table-scroll"><table><thead><tr><th>分钟列表</th><th>总分钟</th><th>达标（至少 25）</th><th>继续输入</th></tr></thead><tbody><tr><td>25、30、15</td><td>70</td><td>字符串、容器</td><td>yes、q → 2 次</td></tr><tr><td>0、25、40</td><td>65</td><td>容器、函数</td><td>q → 1 次</td></tr></tbody></table></div><details><summary>卡住时只看提示</summary><p>累计变量从 0 开始；筛选列表在循环前写成空列表；序号用 <code>enumerate(records, start=1)</code>。while 的条件应表示“还没有输入 q”。</p></details><p>把代码、两组实际输出、一次修改后的输入和解释发给我：为什么 total 必须在循环前初始化？空列表经过 for 会发生什么？while 怎样保证结束？这些独立证据用于决定下一课。</p><p>需要补前提时，直接引用页面中的句子提问。复习可看<a href="../reference/control-flow.html">控制流速查</a>与<a href="0004-containers.html#exercise">第四课练习</a>。</p></section>
+<section class="lesson-section" id="sources"><h2>本课参考</h2><p>首选阅读 Python 官方控制流教程，重点看 <code>if</code>、<code>for</code>、<code>range</code> 和 <code>break/continue</code>。</p><ul><li><a href="https://docs.python.org/3.14/tutorial/controlflow.html">Python 3.14：控制流工具</a></li><li><a href="https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#arrays">TypeScript：数组与遍历</a></li><li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach">MDN：Array.prototype.forEach</a></li></ul></section>
+</article></div><nav class="lesson-pagination" aria-label="课程翻页" data-lesson-pagination></nav></main><footer class="site-footer wrap"><a href="../index.html">Python Journey</a><p>一次预测，一段代码，一份可验证的结果。</p><a href="../reference/index.html">常用命令速查 ↗</a></footer></body></html>

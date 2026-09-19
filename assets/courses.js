@@ -52,6 +52,8 @@
       title: "条件判断与循环",
       summary: "用 if、for、while 处理数据，练习 range 和 enumerate。",
       tags: "分支 循环 break continue truthiness",
+      minutes: 30,
+      href: "lessons/0005-control-flow.html",
     },
     {
       id: "0006",

@@ -4,11 +4,12 @@
 
 直接打开 [index.html](index.html)；网页不需要 npm 安装或构建，代码高亮资源已保存在本地。
 
-- [全部课程](courses.html)：7 个阶段、29 节规划课程，目前前四课已开放。
+- [全部课程](courses.html)：7 个阶段、29 节规划课程，目前前五课已开放。
 - [第一课：把 Python 跑起来](lessons/0001-build-and-run.html)：环境、脚本、练习与自测。
 - [第二课：变量、对象与基础类型](lessons/0002-objects-and-types.html)：赋值、共享修改与类型转换。
 - [第三课：字符串与输入输出](lessons/0003-strings-and-input.html)：输入、清理、切片与格式化。
 - [第四课：列表、元组、字典和集合](lessons/0004-containers.html)：组织学习记录、选择容器与浅复制。
+- [第五课：条件判断与循环](lessons/0005-control-flow.html)：逐条处理记录，控制分支与重复执行。
 - [学习路线](ROADMAP.md) / [学习目标](MISSION.md)
 - [三个项目的里程碑与验收](projects/index.html)
 - [常用命令](reference/index.html) / [资料来源](RESOURCES.md)

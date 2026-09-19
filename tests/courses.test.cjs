@@ -10,8 +10,8 @@ test("only published lessons resolve to real readable pages", () => {
   assert.equal(courses.lessons.length, 29);
   assert.equal(new Set(courses.lessons.map((l) => l.id)).size, 29);
   assert.equal(courses.phases.length, 7);
-  assert.equal(courses.filterLessons("", "all", "open").length, 4);
-  assert.equal(courses.filterLessons("", "all", "planned").length, 25);
+  assert.equal(courses.filterLessons("", "all", "open").length, 5);
+  assert.equal(courses.filterLessons("", "all", "planned").length, 24);
   for (const lesson of courses.lessons) {
     assert.ok(lesson.phase >= 1 && lesson.phase <= courses.phases.length);
     if (lesson.href) {

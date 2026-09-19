@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Python 条件判断与循环速查。"><title>控制流速查 · Python Journey</title><link rel="icon" type="image/svg+xml" href="../assets/python-logo.svg"><link rel="stylesheet" href="../assets/python-theme.css"><script defer src="../assets/courses.js"></script><script defer src="../assets/course-ui.js"></script><script defer src="../assets/vendor/highlight.min.js"></script><script defer src="../assets/highlight-init.js"></script><script defer src="../assets/lesson-reader.js"></script></head>
+<body data-course-root="../"><a class="skip-link" href="#content">跳到正文</a><header class="site-header wrap"><nav aria-label="主导航"><a class="brand" href="../index.html" data-home><img src="../assets/python-logo.svg" width="40" height="40" alt=""><span>Python Journey<small>面向 TypeScript 开发者</small></span></a><div class="nav-links"><a href="../courses.html" data-directory>全部课程</a><a href="../index.html#path-title">学习路线</a></div></nav></header>
+<main id="content" class="wrap"><header class="lesson-heading"><p class="eyebrow">QUICK REFERENCE / 05</p><h1>控制流速查。</h1><p>按条件选择路径，按序列重复处理。</p></header><article class="lesson-article"><section class="lesson-section"><h2>核心写法</h2><pre><code class="language-python">if minutes >= 25:
+    label = "完整"
+else:
+    label = "短练习"
+
+for index, item in enumerate(records, start=1):
+    print(index, item)
+
+while answer != "yes":
+    answer = input("确认？")</code></pre><p><code>if</code> 选择分支；<code>for</code> 遍历已有数据；<code>while</code> 在每次判断为真时继续。缩进是语法的一部分。</p></section><section class="lesson-section"><h2>常见边界</h2><div class="table-scroll"><table><thead><tr><th>目标</th><th>写法</th><th>边界</th></tr></thead><tbody><tr><td>遍历序列</td><td><code>for item in items</code></td><td>空序列不执行循环体。</td></tr><tr><td>需要序号</td><td><code>enumerate(items, start=1)</code></td><td>序号只是计数，不改变列表索引。</td></tr><tr><td>重复固定次数</td><td><code>for _ in range(3)</code></td><td>range 终点不包含在内。</td></tr><tr><td>跳过 / 提前结束</td><td><code>continue</code> / <code>break</code></td><td>只影响当前所在的循环。</td></tr></tbody></table></div></section><p><a href="../lessons/0005-control-flow.html#exercise">返回第五课练习</a> · <a href="https://docs.python.org/3.14/tutorial/controlflow.html">Python 3.14 官方控制流教程</a></p></article></main><footer class="site-footer wrap"><a href="../index.html">Python Journey</a><p>一次预测，一段代码，一份可验证的结果。</p></footer></body></html>
